@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "185689217671",
+    "project_id": "afeefa-handloom",
+    "storage_bucket": "afeefa-handloom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185689217671:android:5fee5e89eced0b25d5b622",
+        "android_client_info": {
+          "package_name": "com.softkru.afeefa_handloom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185689217671-bjukkg5lkpluhipalbieffrarc3tc4br.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANa371IFEPVxpF-UkZ4_5C5IEzvuW1w3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185689217671-bjukkg5lkpluhipalbieffrarc3tc4br.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
