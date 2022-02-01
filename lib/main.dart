@@ -8,12 +8,11 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp().then((value) => {
-    Get.put(AuthController())
-  });
+  Firebase.initializeApp().then((value) => {Get.put(AuthController())});
 
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Afeefa Handloom",
       // initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

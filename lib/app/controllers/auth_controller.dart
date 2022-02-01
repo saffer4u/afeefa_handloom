@@ -43,15 +43,17 @@ class AuthController extends GetxController {
       },
       verificationFailed: (FirebaseAuthException e) {
         Snakebars().errorBar(e.message.toString());
+        isLoadig.value = false;
       },
       codeSent: (String verificationId, int? resendToken) {
         _verificationCode = verificationId;
+        isLoadig.value = false;
         Get.toNamed(Routes.OTP, arguments: phoneNo);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         _verificationCode = verificationId;
       },
-      timeout: Duration(seconds: 60),
+      timeout: Duration(seconds: 180),
     );
   }
 
