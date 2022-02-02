@@ -1,7 +1,9 @@
-import 'package:afeefa_handloom/app/constents/snakbars.dart';
+import 'package:afeefa_handloom/app/widgets/snakbars.dart';
+import 'package:afeefa_handloom/app/modules/login/otp/controllers/otp_controller.dart';
 import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
@@ -42,33 +44,45 @@ class AuthController extends GetxController {
         await _authInstence.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
-        Snakebars().errorBar(e.message.toString());
+        customBar(message: e.message.toString(), title: 'Error');
         isLoadig.value = false;
       },
-      codeSent: (String verificationId, int? resendToken) {
+      codeSent: (String verificationId, int? resendToken) async {
         _verificationCode = verificationId;
         isLoadig.value = false;
         Get.toNamed(Routes.OTP, arguments: phoneNo);
+        Get.find<OtpController>().startCountDown();
       },
       codeAutoRetrievalTimeout: (String verificationId) {
+        //! Not sure if it is working.
+        isLoadig.value = false;
         _verificationCode = verificationId;
       },
-      timeout: Duration(seconds: 180),
+      timeout: Duration(seconds: 60),
     );
   }
 
   Future<bool> submitOtp(String pin, BuildContext ctx) async {
     try {
+      FocusScope.of(ctx).unfocus();
       await _authInstence.signInWithCredential(
         PhoneAuthProvider.credential(
           verificationId: _verificationCode,
           smsCode: pin,
         ),
       );
+      isLoadig.value = false;
       return false;
     } on FirebaseAuthException catch (e) {
+      
+      
       FocusScope.of(ctx).unfocus();
-      Snakebars().errorBar(e.message.toString());
+      isLoadig.value = false;
+      customBar(
+        message: 'Invalid OTP please recheck',
+        title: 'Error',
+        duration: 2,
+      );
       // Get.snackbar("Error", e.message.toString());
       return true;
     }

@@ -26,6 +26,8 @@ class AppPages {
       binding: LoginBinding(),
       children: [
         GetPage(
+          transition: Transition.fadeIn,
+         
           name: _Paths.OTP,
           page: () => OtpView(),
           binding: OtpBinding(),
