@@ -1,4 +1,5 @@
 import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
+import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,10 +11,14 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp().then((value) => {Get.put(AuthController())});
+  Firebase.initializeApp().then((value) => {
+        Get.put(AuthController()),
+        Get.put(DbController()),
+      });
 
   runApp(
     GetMaterialApp(
+      theme: ThemeData(primarySwatch: Colors.blueGrey),
       debugShowCheckedModeBanner: false,
       title: "Afeefa Handloom",
       // initialRoute: AppPages.INITIAL,
@@ -27,7 +32,6 @@ void main() async {
                 colors: [slate, concrete],
                 begin: Alignment(0, -1),
                 end: Alignment(0, 0),
-                
               ),
             ),
             child: CustomProgressIndicator(),

@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _authInstence = FirebaseAuth.instance;
+
+  String get getUid => _authInstence.currentUser!.uid;
+
   late Rx<User?> firebaseUser;
   var isLoadig = false.obs;
   String _verificationCode = '';
@@ -74,8 +77,6 @@ class AuthController extends GetxController {
       isLoadig.value = false;
       return false;
     } on FirebaseAuthException catch (e) {
-      
-      
       FocusScope.of(ctx).unfocus();
       isLoadig.value = false;
       customBar(
@@ -90,5 +91,14 @@ class AuthController extends GetxController {
 
   void logOut() async {
     await _authInstence.signOut();
+  }
+
+  Map<String, String?> getCurrentUserInfo() {
+    User? user = _authInstence.currentUser;
+    Map<String, String?> currentUserInfo = {
+      'uid': user?.uid,
+      'phoneNumber': user?.phoneNumber,
+    };
+    return currentUserInfo;
   }
 }
