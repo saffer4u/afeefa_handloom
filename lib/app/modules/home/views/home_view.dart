@@ -1,8 +1,11 @@
 import 'package:afeefa_handloom/app/constents/colors.dart';
 import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
+import 'package:afeefa_handloom/app/controllers/db_controller.dart';
+import 'package:afeefa_handloom/app/widgets/create_profile_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -29,13 +32,12 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           child: Drawer(
-           
             elevation: 0,
             backgroundColor: Colors.transparent,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: ListView(padding: EdgeInsets.zero, children: [
-              DrawerHeader(child: Text("Header")),
+            child: ListView(padding: EdgeInsets.all(20), children: [
+              CreateProfileWidget(),
               ListTile(title: Text("Home"))
             ]),
           ),
@@ -51,6 +53,15 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.menu_rounded,
+              color: royal,
+            ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -62,13 +73,14 @@ class HomeView extends GetView<HomeController> {
         ),
         child: SafeArea(
           child: Center(
-            child: Text(
-              'HomeView is working',
-              style: TextStyle(fontSize: 20),
-            ),
+            child: Obx(() => Text(
+                  'Admin : ${Get.find<DbController>().userData.value}, : ${Get.find<DbController>().isAdmin.value}',
+                  style: TextStyle(fontSize: 20),
+                )),
           ),
         ),
       ),
     );
   }
 }
+

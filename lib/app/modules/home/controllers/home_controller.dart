@@ -6,9 +6,11 @@ class HomeController extends GetxController {
   late Map<String, String?> currentUser;
 
   @override
-  void onInit() {
+  void onInit(){
     currentUser = Get.find<AuthController>().getCurrentUserInfo();
     Get.find<DbController>().createNewUser(currentUser);
+    // Get.find<DbController>().checkIsAdmin(Get.find<AuthController>().getUid);
+    // Get.find<DbController>().getUserData(Get.find<AuthController>().getUid);
 
     super.onInit();
   }

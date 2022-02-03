@@ -3,8 +3,11 @@ import 'package:afeefa_handloom/app/modules/login/otp/controllers/otp_controller
 import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/get.dart';
+
+import 'db_controller.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _authInstence = FirebaseAuth.instance;
@@ -16,6 +19,11 @@ class AuthController extends GetxController {
   String _verificationCode = '';
 
   @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
   void onReady() {
     super.onReady();
     firebaseUser = Rx<User?>(_authInstence.currentUser);
@@ -25,7 +33,10 @@ class AuthController extends GetxController {
 
   void _setInitialScreen(User? user) {
     if (user != null) {
+      // Check whether user is admin.
+
       // User LoggedIn.
+      
       Get.offAllNamed(Routes.HOME);
     } else {
       // User is not logged in.
