@@ -1,6 +1,7 @@
 import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -12,11 +13,21 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+  Get.put(AuthController());
+  Get.put(DbController());
+  
+
+  
+
+  /*
+  // Before Working code
   Firebase.initializeApp().then((value) => {
         Get.put(AuthController()),
         Get.put(DbController()),
       });
-
+*/
   runApp(
     GetMaterialApp(
       theme: ThemeData(
@@ -24,7 +35,6 @@ void main() async {
         textTheme: TextTheme(
           bodyText1: GoogleFonts.baloo(),
           bodyText2: GoogleFonts.baloo2(),
-          
         ),
       ),
       debugShowCheckedModeBanner: false,
@@ -33,17 +43,15 @@ void main() async {
       getPages: AppPages.routes,
       home: Center(
         child: Scaffold(
-          body: SafeArea(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [slate, concrete],
-                  begin: Alignment(0, -1),
-                  end: Alignment(0, 0),
-                ),
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [slate, concrete],
+                begin: Alignment(0, -1),
+                end: Alignment(0, 0),
               ),
-              child: CustomProgressIndicator(),
             ),
+            child: CustomProgressIndicator(),
           ),
         ),
       ),

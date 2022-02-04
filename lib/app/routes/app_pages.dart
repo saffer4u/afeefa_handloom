@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 
 import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/create_edit_profile/bindings/create_edit_profile_binding.dart';
+import '../modules/home/create_edit_profile/views/create_edit_profile_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/otp/bindings/otp_binding.dart';
@@ -19,6 +21,14 @@ class AppPages {
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
+      children: [
+        GetPage(
+          transition: Transition.fadeIn,
+          name: _Paths.CREATE_EDIT_PROFILE,
+          page: () => CreateEditProfileView(),
+          binding: CreateEditProfileBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.LOGIN,
@@ -27,7 +37,6 @@ class AppPages {
       children: [
         GetPage(
           transition: Transition.fadeIn,
-         
           name: _Paths.OTP,
           page: () => OtpView(),
           binding: OtpBinding(),

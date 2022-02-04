@@ -1,3 +1,4 @@
+import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:afeefa_handloom/app/widgets/Logout_button_Widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/widgets/create_profile_widget.dart';
 
+import '../../../widgets/drawer_menu_button.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -43,13 +45,22 @@ class HomeView extends GetView<HomeController> {
               child: Column(children: [
                 // Show defferent widget on the basis of user.
                 Builder(builder: (context) {
+                  // Top drawer widget.
                   return CreateProfileWidget(
-                    onPress: () {},
+                    onPress: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
                   );
                 }),
-                Divider(),
-                ListTile(
-                  title: Text("Home"),
+                Divider(
+                  // indent: 30,
+                  // endIndent: 30,
+                  height: 40,
+                  color: royal.withOpacity(0.2),
+                  thickness: 1,
+                ),
+                DrawerMenuButton(
+                  icon: Icons.home,
+                  title: "Home",
+                  onPressed: () => Get.back(),
                 ),
                 Spacer(),
                 LogoutButton(
@@ -129,23 +140,34 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [slate, concrete],
-            begin: Alignment(0, -1),
-            end: Alignment(0, 0),
+      body: Builder(builder: (context) {
+        return GestureDetector(
+          onHorizontalDragUpdate: (details) {
+            // print(details.primaryDelta);
+            if ((details.primaryDelta! > 15.0)) {
+              Scaffold.of(context).openDrawer();
+              print(details.delta);
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [slate, concrete],
+                begin: Alignment(0, -1),
+                end: Alignment(0, 0),
+              ),
+            ),
+            child: SafeArea(
+              child: Center(
+                child: Obx(() => Text(
+                      'Admin : ${Get.find<DbController>().userData.value}, : ${Get.find<DbController>().isAdmin.value}',
+                      style: TextStyle(fontSize: 20),
+                    )),
+              ),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: Obx(() => Text(
-                  'Admin : ${Get.find<DbController>().userData.value}, : ${Get.find<DbController>().isAdmin.value}',
-                  style: TextStyle(fontSize: 20),
-                )),
-          ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

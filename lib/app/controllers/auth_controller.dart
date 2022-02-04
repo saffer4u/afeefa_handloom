@@ -13,30 +13,30 @@ class AuthController extends GetxController {
   final FirebaseAuth _authInstence = FirebaseAuth.instance;
 
   String get getUid => _authInstence.currentUser!.uid;
+  late Map<String, String?> currentUser;
 
   late Rx<User?> firebaseUser;
   var isLoadig = false.obs;
   String _verificationCode = '';
 
   @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
   void onReady() {
-    super.onReady();
     firebaseUser = Rx<User?>(_authInstence.currentUser);
     firebaseUser.bindStream(_authInstence.userChanges());
+
     ever(firebaseUser, _setInitialScreen);
+    super.onReady();
   }
 
-  void _setInitialScreen(User? user) {
+  void _setInitialScreen(User? user) async {
+    // print('User Streen : $user');
     if (user != null) {
       // Check whether user is admin.
 
       // User LoggedIn.
-      
+      currentUser = getCurrentUserInfo();
+      await Get.find<DbController>().createNewUser(currentUser);
+      await Get.find<DbController>().getConfigData();
       Get.offAllNamed(Routes.HOME);
     } else {
       // User is not logged in.
@@ -100,9 +100,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void logOut() async {
-    await _authInstence.signOut();
-  }
+  void logOut() => _authInstence.signOut();
 
   Map<String, String?> getCurrentUserInfo() {
     User? user = _authInstence.currentUser;
