@@ -76,7 +76,6 @@ class LoginView extends GetView<LoginController> {
                                     'WELCOME',
                                     speed: Duration(milliseconds: 200),
                                   ),
-                                  
                                 ],
                                 // onTap: () {
                                 //   print("Tap Event");
@@ -202,7 +201,6 @@ class LoginView extends GetView<LoginController> {
                                 } else {
                                   if (Get.find<OtpController>().seconds.value !=
                                       0) {
-                                                  
                                     customBar(
                                         duration: 2,
                                         title:
@@ -211,70 +209,70 @@ class LoginView extends GetView<LoginController> {
                                             "Multiple OTP can not be sent within 60 seconds");
                                   } else {
                                     Get.defaultDialog(
-                                        title: "",
-                                        contentPadding: EdgeInsets.only(
-                                            left: 20, right: 20, bottom: 20),
-                                        content: Column(
-                                          children: [
-                                            Text(
-                                              "+91 ${Get.find<LoginController>().phoneNumberController.text}",
+                                      title: "",
+                                      contentPadding: EdgeInsets.only(
+                                          left: 20, right: 20, bottom: 20),
+                                      content: Column(
+                                        children: [
+                                          Text(
+                                            "+91 ${Get.find<LoginController>().phoneNumberController.text}",
+                                            style: GoogleFonts.baloo(
+                                              color: royal,
+                                              fontSize: 35,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 30,
+                                          ),
+                                          GradientText(
+                                            "We will be verifying the phone number.\nIs this OK, or would you like to edit the number?",
+                                            style: GoogleFonts.baloo2(
+                                              color: royal,
+                                              fontSize: 15,
+                                            ),
+                                            colors: [redOrenge, royal],
+                                          ),
+                                        ],
+                                      ),
+                                      backgroundColor: slate,
+                                      titleStyle:
+                                          TextStyle(color: Colors.white),
+                                      middleTextStyle:
+                                          TextStyle(color: Colors.white),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                              // Snakebars().errorBar(
+                                              //     'This is a test message to test and design the snakebar.');
+                                            },
+                                            child: Text(
+                                              'Edit',
+                                              style: GoogleFonts.baloo(
+                                                color: royal.withOpacity(0.8),
+                                                fontSize: 20,
+                                              ),
+                                            )),
+                                        TextButton(
+                                            onPressed: () async{
+                                              Get.back();
+
+                                              Get.find<AuthController>()
+                                                  .isLoadig
+                                                  .value = true;
+
+                                              await Get.find<AuthController>().phoneLogIn(
+                                                  '+91${Get.find<LoginController>().phoneNumberController.text}');
+                                            },
+                                            child: Text(
+                                              'Ok',
                                               style: GoogleFonts.baloo(
                                                 color: royal,
-                                                fontSize: 35,
+                                                fontSize: 20,
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 30,
-                                            ),
-                                            GradientText(
-                                              "We will be verifying the phone number.\nIs this OK, or would you like to edit the number?",
-                                              style: GoogleFonts.baloo2(
-                                                color: royal,
-                                                fontSize: 15,
-                                              ),
-                                              colors: [redOrenge, royal],
-                                            ),
-                                          ],
-                                        ),
-                                        backgroundColor: slate,
-                                        titleStyle:
-                                            TextStyle(color: Colors.white),
-                                        middleTextStyle:
-                                            TextStyle(color: Colors.white),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                                // Snakebars().errorBar(
-                                                //     'This is a test message to test and design the snakebar.');
-                                              },
-                                              child: Text(
-                                                'Edit',
-                                                style: GoogleFonts.baloo(
-                                                  color: royal.withOpacity(0.8),
-                                                  fontSize: 20,
-                                                ),
-                                              )),
-                                          TextButton(
-                                              onPressed: () {
-                                                Get.back();
-
-                                                Get.find<AuthController>()
-                                                    .isLoadig
-                                                    .value = true;
-
-                                                Get.find<AuthController>()
-                                                    .phoneLogIn(
-                                                        '+91${Get.find<LoginController>().phoneNumberController.text}');
-                                              },
-                                              child: Text(
-                                                'Ok',
-                                                style: GoogleFonts.baloo(
-                                                  color: royal,
-                                                  fontSize: 20,
-                                                ),
-                                              )),
-                                        ]);
+                                            )),
+                                      ],
+                                    );
                                   }
                                 }
                               },

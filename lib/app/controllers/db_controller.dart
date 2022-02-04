@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DbController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var isAdmin = false.obs;
-  var userData = Rx<Map<String, dynamic>?>({'':''});
+  var userData = Rx<Map<String, dynamic>?>({'': ''});
 
   // add user to db if not already added.
   void createNewUser(Map<String, String?> userInfo) async {
@@ -21,7 +21,7 @@ class DbController extends GetxController {
     } else {
       print('User data already exists');
     }
-    getUserData(userInfo['uid']!);
+    await getUserData(userInfo['uid']!);
     isAdmin.value = userData.value!['isAdmin'];
   }
 
@@ -47,7 +47,7 @@ class DbController extends GetxController {
 
   // Return user data from db.
   // Future<Map<String, dynamic>?>
-  void getUserData(String uid) async {
+  Future<void> getUserData(String uid) async {
     var collectionRef = firestore.collection('users');
     var doc = await collectionRef.doc(uid).get();
     userData.value = doc.data();

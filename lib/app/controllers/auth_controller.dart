@@ -51,7 +51,7 @@ class AuthController extends GetxController {
   //   isLoadig(false);
   // }
 
-  void phoneLogIn(String phoneNo) async {
+  Future<void> phoneLogIn(String phoneNo) async {
     await _authInstence.verifyPhoneNumber(
       phoneNumber: phoneNo,
       verificationCompleted: (PhoneAuthCredential credential) async {

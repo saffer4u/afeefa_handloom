@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class CreateProfileWidget extends StatelessWidget {
+  final void Function()? onPress;
+
   const CreateProfileWidget({
     Key? key,
+    this.onPress,
   }) : super(key: key);
 
   @override
@@ -30,7 +33,7 @@ class CreateProfileWidget extends StatelessWidget {
         child: InkWell(
           splashColor: redOrenge,
           borderRadius: BorderRadius.circular(15),
-          onTap: () {},
+          onTap: onPress,
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
