@@ -1,7 +1,10 @@
 import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/data/config_model.dart';
+import 'package:afeefa_handloom/app/widgets/clint_create_profile.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../modules/home/create_edit_profile/model/clint_profile_model.dart';
 
 class DbController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -77,5 +80,19 @@ class DbController extends GetxController {
     );
     print("Config File arrived");
     // print(configData.value.userType);
+  }
+
+  Future<void> createClintProfile(ClintProfile profile) async {
+    var collectionRef = firestore.collection('users');
+
+    await collectionRef
+        .doc(Get.find<AuthController>().getUid)
+        .update(profile.toMap());
+
+    await collectionRef
+        .doc(Get.find<AuthController>().getUid)
+        .update({'isProfileCompleted': true});
+
+    await getUserData(Get.find<AuthController>().getUid);
   }
 }

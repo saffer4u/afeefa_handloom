@@ -414,7 +414,8 @@ class ClintCreateProfile extends StatelessWidget {
                   .formKey
                   .currentState!
                   .validate()) {
-                Get.find<CreateEditProfileController>().createClintProfileModel();
+                Get.find<CreateEditProfileController>()
+                    .createClintProfileModel();
               }
             }
           },

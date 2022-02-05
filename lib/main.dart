@@ -1,5 +1,6 @@
 import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
+import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
 import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
 import 'package:afeefa_handloom/temp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +19,7 @@ void main() async {
   await Firebase.initializeApp();
   Get.put(AuthController());
   Get.put(DbController());
+  Get.put(StorageController());
 
   /*
   // Before Working code

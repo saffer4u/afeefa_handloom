@@ -1,7 +1,7 @@
-class ClintProfileModel {
+class ClintProfile {
   final int varsion;
   final String userName;
-  final String firmName;
+  final String farmName;
   final String profilePicUrl;
   final String logoUrl;
   final String gstNo;
@@ -10,10 +10,10 @@ class ClintProfileModel {
   final String bankName;
   final String ifscCode;
 
-  ClintProfileModel({
+  ClintProfile({
     this.varsion = 1,
     this.userName = 'Unknown',
-    this.firmName = 'Unknown',
+    this.farmName = 'Unknown',
     this.profilePicUrl = 'https://picsum.photos/200',
     this.logoUrl = 'https://picsum.photos/200',
     this.gstNo = 'Unknown',
@@ -22,4 +22,20 @@ class ClintProfileModel {
     this.bankName = 'Unknown',
     this.ifscCode = 'Unknown',
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'varsion': varsion,
+      'userName': userName,
+      'farmName': farmName,
+      'profilePicUrl': profilePicUrl,
+      'logoUrl': logoUrl,
+      'gstNo': gstNo,
+      'userType': userType,
+      'accountNo': accountNo,
+      'bankName': bankName,
+      'ifscCode': ifscCode,
+
+    };
+  }
 }

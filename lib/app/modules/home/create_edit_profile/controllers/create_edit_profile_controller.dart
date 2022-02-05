@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
+import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
+import 'package:afeefa_handloom/app/modules/home/create_edit_profile/model/clint_profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -71,7 +73,31 @@ class CreateEditProfileController extends GetxController {
     }
   }
 
-  void createClintProfileModel() {
-    
+  Future<void> createClintProfileModel() async {
+    ClintProfile clintProfile = ClintProfile(
+      userName: userNameController.value.text,
+      farmName: farmNameController.value.text,
+      gstNo: gstNumberController.value.text,
+      bankName: bankNameController.value.text,
+      accountNo: accountNumberController.value.text,
+      ifscCode: ifscCodeController.value.text,
+      userType: userTypeDropDownValue.value,
+      profilePicUrl: (await Get.find<StorageController>()
+          .upladImageToFirebaseStorage(
+              path: 'userImages',
+              file: uploadImageFile.value!,
+              fileName:
+                  '${Get.find<DbController>().userData.value!['phoneNumber']}_profile.jpg'))!,
+      logoUrl: (await Get.find<StorageController>().upladImageToFirebaseStorage(
+          path: 'userImages',
+          file: uploadLogoFile.value!,
+          fileName:
+              '${Get.find<DbController>().userData.value!['phoneNumber']}_logo.jpg'))!,
+    );
+
+    // Add to Database.
+
+    print(clintProfile.toMap());
+    await Get.find<DbController>().createClintProfile(clintProfile);
   }
 }
