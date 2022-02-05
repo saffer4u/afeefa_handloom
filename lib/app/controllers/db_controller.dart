@@ -26,12 +26,8 @@ class DbController extends GetxController {
     } else {
       print('User data already exists');
     }
- 
 
     await getUserData(Get.find<AuthController>().getUid);
-    
-
- 
   }
 
   // Return true if user exist.
@@ -58,7 +54,7 @@ class DbController extends GetxController {
   // Future<Map<String, dynamic>?>
   Future<void> getUserData(String uid) async {
     var collectionRef = firestore.collection('users');
-   
+
     var doc = await collectionRef.doc(uid).get();
     userData.update((val) {
       val!.addAll(doc.data()!);
@@ -66,7 +62,7 @@ class DbController extends GetxController {
     isAdmin.update((val) {
       val = doc.data()!['isAdmin'];
     });
-   
+
     print('User Data Fatched');
   }
 

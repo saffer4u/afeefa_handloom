@@ -159,10 +159,16 @@ class HomeView extends GetView<HomeController> {
             ),
             child: SafeArea(
               child: Center(
-                child: Obx(() => Text(
-                      'Admin : ${Get.find<DbController>().userData.value}, : ${Get.find<DbController>().isAdmin.value}',
-                      style: TextStyle(fontSize: 20),
-                    )),
+                child: GradientText(
+                  // 'Admin : ${Get.find<DbController>().userData.value}, : ${Get.find<DbController>().isAdmin.value}',
+                  // style: TextStyle(fontSize: 20),
+                  "Home",
+                  colors: [royal, redOrenge],
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),

@@ -14,12 +14,6 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Text('Test button'),
-        onPressed: () {
-          print(Get.find<DbController>().userData.value);
-        },
-      ),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
@@ -48,6 +42,7 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
         backgroundColor: slate,
       ),
       body: Container(
+        height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [slate, concrete],
@@ -55,100 +50,103 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
             end: Alignment(0, 0),
           ),
         ),
-        child: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Form(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'User Type',
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: royal,
-                                    fontSize: 20,
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: Get.find<CreateEditProfileController>().formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'User Type',
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      color: royal,
+                                      fontSize: 20,
+                                    ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          // Dropdown button widget.
+                          Obx(
+                            () => Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 1,
+                                    color: Colors.grey,
+                                    offset: Offset(1, 1),
                                   ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        // Dropdown button widget.
-                        Obx(
-                          () => Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 1,
-                                  color: Colors.grey,
-                                  offset: Offset(1, 1),
-                                ),
-                              ],
-                              color: slate,
-                            ),
-                            child: DropdownButton(
-                              iconEnabledColor: royal,
-                              underline: SizedBox.shrink(),
-                              dropdownColor: concrete,
-                              borderRadius: BorderRadius.circular(12),
-                              isDense: true,
-                              items: Get.find<CreateEditProfileController>()
-                                  .userTypeDropDownItems
-                                  .map((String item) {
-                                return DropdownMenuItem(
-                                  child: GradientText(
-                                    item,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .copyWith(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                    colors: [
-                                      royal,
-                                      redOrenge,
-                                    ],
-                                  ),
-                                  value: item,
-                                );
-                              }).toList(),
-                              value: Get.find<CreateEditProfileController>()
-                                  .userTypeDropDownValue
-                                  .value,
-                              onChanged: (String? value) {
-                                Get.find<CreateEditProfileController>()
+                                ],
+                                color: slate,
+                              ),
+                              child: DropdownButton(
+                                iconEnabledColor: royal,
+                                underline: SizedBox.shrink(),
+                                dropdownColor: concrete,
+                                borderRadius: BorderRadius.circular(12),
+                                isDense: true,
+                                items: Get.find<CreateEditProfileController>()
+                                    .userTypeDropDownItems
+                                    .map((String item) {
+                                  return DropdownMenuItem(
+                                    child: GradientText(
+                                      item,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .copyWith(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                      colors: [
+                                        royal,
+                                        redOrenge,
+                                      ],
+                                    ),
+                                    value: item,
+                                  );
+                                }).toList(),
+                                value: Get.find<CreateEditProfileController>()
                                     .userTypeDropDownValue
-                                    .value = value!;
-                              },
+                                    .value,
+                                onChanged: (String? value) {
+                                  Get.find<CreateEditProfileController>()
+                                      .userTypeDropDownValue
+                                      .value = value!;
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      height: 40,
-                      color: royal.withOpacity(0.2),
-                      thickness: 1,
-                    ),
-                    Obx(() {
-                      switch (Get.find<CreateEditProfileController>()
-                          .userTypeDropDownValue
-                          .value) {
-                        case 'Clint':
-                          return ClintCreateProfile();
+                        ],
+                      ),
+                      Divider(
+                        height: 40,
+                        color: royal.withOpacity(0.2),
+                        thickness: 1,
+                      ),
+                      Obx(() {
+                        switch (Get.find<CreateEditProfileController>()
+                            .userTypeDropDownValue
+                            .value) {
+                          case 'Clint':
+                            return ClintCreateProfile();
 
-                        default:
-                          return UnknownCreateProfile();
-                      }
-                    }),
-                  ],
+                          default:
+                            return UnknownCreateProfile();
+                        }
+                      }),
+                    ],
+                  ),
                 ),
               ),
             ),
