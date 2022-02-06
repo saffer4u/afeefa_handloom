@@ -1,5 +1,6 @@
 import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:afeefa_handloom/app/widgets/Logout_button_Widget.dart';
+import 'package:afeefa_handloom/app/widgets/drawer_profile_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:afeefa_handloom/app/constents/colors.dart';
 import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
-import 'package:afeefa_handloom/app/widgets/create_profile_widget.dart';
+import 'package:afeefa_handloom/app/widgets/drawer_create_profile_widget.dart';
 
 import '../../../widgets/drawer_menu_button.dart';
 import '../controllers/home_controller.dart';
@@ -17,6 +18,12 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // await Get.find<DbController>().fatchUserData();
+        },
+        child: Text("Test"),
+      ),
       drawer: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 5,
@@ -40,15 +47,31 @@ class HomeView extends GetView<HomeController> {
             backgroundColor: Colors.transparent,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(20.0),
+              // height: 5009,
               child: Column(children: [
                 // Show defferent widget on the basis of user.
-                Builder(builder: (context) {
+                Obx(() {
                   // Top drawer widget.
-                  return CreateProfileWidget(
-                    onPress: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
-                  );
+                  if (Get.find<DbController>().userExist.value) {
+                    return Column(
+                      children: [
+                        DrawerProfileCard(),
+                        SizedBox(
+                          height: 200,
+                        ),
+                        CreateProfileWidget(
+                          onPress: () =>
+                              Get.toNamed(Routes.CREATE_EDIT_PROFILE),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return CreateProfileWidget(
+                      onPress: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
+                    );
+                  }
                 }),
                 Divider(
                   // indent: 30,

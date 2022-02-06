@@ -13,11 +13,15 @@ class AuthController extends GetxController {
   final FirebaseAuth _authInstence = FirebaseAuth.instance;
 
   String get getUid => _authInstence.currentUser!.uid;
-  late Map<String, String?> currentUser;
+  String get getPhoneNumber => _authInstence.currentUser!.phoneNumber!;
+
+  // late Map<String, String?> currentUser;
 
   late Rx<User?> firebaseUser;
   var isLoadig = false.obs;
   String _verificationCode = '';
+  
+ 
 
   @override
   void onReady() {
@@ -34,9 +38,12 @@ class AuthController extends GetxController {
       // Check whether user is admin.
 
       // User LoggedIn.
-      currentUser = getCurrentUserInfo();
-      await Get.find<DbController>().createNewUser(currentUser);
+      // currentUser = getCurrentUserInfo();
+      // await Get.find<DbController>().createNewUser(currentUser);
       await Get.find<DbController>().getConfigData();
+       if (await Get.find<DbController>().userExistCheck()) {
+        await Get.find<DbController>().fatchUserData();
+      }
       Get.offAllNamed(Routes.HOME);
     } else {
       // User is not logged in.
@@ -102,12 +109,12 @@ class AuthController extends GetxController {
 
   void logOut() => _authInstence.signOut();
 
-  Map<String, String?> getCurrentUserInfo() {
-    User? user = _authInstence.currentUser;
-    Map<String, String?> currentUserInfo = {
-      'uid': user?.uid,
-      'phoneNumber': user?.phoneNumber,
-    };
-    return currentUserInfo;
-  }
+  // Map<String, String?> getCurrentUserInfo() {
+  //   User? user = _authInstence.currentUser;
+  //   Map<String, String?> currentUserInfo = {
+  //     'uid': user?.uid,
+  //     'phoneNumber': user?.phoneNumber,
+  //   };
+  //   return currentUserInfo;
+  // }
 }

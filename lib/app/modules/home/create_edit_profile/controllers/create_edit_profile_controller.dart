@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
-import 'package:afeefa_handloom/app/modules/home/create_edit_profile/model/clint_profile_model.dart';
+import 'package:afeefa_handloom/app/modules/home/create_edit_profile/model/user_profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,8 +17,30 @@ enum ImageType {
 }
 
 class CreateEditProfileController extends GetxController {
+  var isUserExist = false.obs;
+
+  @override
+  void onInit() async {
+    isUserExist.value = await Get.find<DbController>().userExistCheck();
+    if (isUserExist.value) {
+      userNameController.text =
+          Get.find<DbController>().userProfile.value.userName;
+      firmNameController.text =
+          Get.find<DbController>().userProfile.value.firmName;
+      gstNumberController.text =
+          Get.find<DbController>().userProfile.value.gstNo;
+      bankNameController.text =
+          Get.find<DbController>().userProfile.value.bankName;
+      accountNumberController.text =
+          Get.find<DbController>().userProfile.value.accountNo;
+      ifscCodeController.text =
+          Get.find<DbController>().userProfile.value.ifscCode;
+    }
+    super.onInit();
+  }
+
   TextEditingController userNameController = TextEditingController();
-  TextEditingController farmNameController = TextEditingController();
+  TextEditingController firmNameController = TextEditingController();
   TextEditingController gstNumberController = TextEditingController();
   TextEditingController bankNameController = TextEditingController();
   TextEditingController accountNumberController = TextEditingController();
@@ -74,30 +97,35 @@ class CreateEditProfileController extends GetxController {
   }
 
   Future<void> createClintProfileModel() async {
-    ClintProfile clintProfile = ClintProfile(
+    UserProfile clintProfile = UserProfile(
       userName: userNameController.value.text,
-      farmName: farmNameController.value.text,
+      firmName: firmNameController.value.text,
       gstNo: gstNumberController.value.text,
       bankName: bankNameController.value.text,
       accountNo: accountNumberController.value.text,
       ifscCode: ifscCodeController.value.text,
       userType: userTypeDropDownValue.value,
-      profilePicUrl: (await Get.find<StorageController>()
-          .upladImageToFirebaseStorage(
+      phoneNumber: Get.find<AuthController>().getPhoneNumber,
+      profilePicUrl: uploadImageFile.value == null
+          ? Get.find<DbController>().userProfile.value.profilePicUrl
+          : (await Get.find<StorageController>().upladImageToFirebaseStorage(
               path: 'userImages',
               file: uploadImageFile.value!,
               fileName:
-                  '${Get.find<DbController>().userData.value!['phoneNumber']}_profile.jpg'))!,
-      logoUrl: (await Get.find<StorageController>().upladImageToFirebaseStorage(
-          path: 'userImages',
-          file: uploadLogoFile.value!,
-          fileName:
-              '${Get.find<DbController>().userData.value!['phoneNumber']}_logo.jpg'))!,
+                  '${Get.find<AuthController>().getPhoneNumber}_profile.jpg'))!,
+      logoUrl: uploadLogoFile.value == null
+          ? Get.find<DbController>().userProfile.value.logoUrl
+          : (await Get.find<StorageController>().upladImageToFirebaseStorage(
+              path: 'userImages',
+              file: uploadLogoFile.value!,
+              fileName:
+                  '${Get.find<AuthController>().getPhoneNumber}_logo.jpg'))!,
     );
 
     // Add to Database.
 
     print(clintProfile.toMap());
+    // Get.find<AuthController>().isLoadig.value = false;
     await Get.find<DbController>().createClintProfile(clintProfile);
   }
 }

@@ -23,7 +23,7 @@ class AppPages {
       binding: HomeBinding(),
       children: [
         GetPage(
-          transition: Transition.fadeIn,
+          // transition: Transition.fadeIn,
           name: _Paths.CREATE_EDIT_PROFILE,
           page: () => CreateEditProfileView(),
           binding: CreateEditProfileBinding(),

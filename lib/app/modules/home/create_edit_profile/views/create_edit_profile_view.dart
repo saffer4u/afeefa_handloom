@@ -1,3 +1,4 @@
+import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/widgets/unknown_create_profile.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../../../constents/colors.dart';
 import '../../../../widgets/clint_create_profile.dart';
+import '../../../../widgets/custom_progress_indicator.dart';
 import '../../../../widgets/title_widget.dart';
 import '../controllers/create_edit_profile_controller.dart';
 
@@ -17,11 +19,25 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
-        title:
-            //  Get.find<DbController>().userData.value!['isProfileCompleted']
-            //     ? TitleWidget(title: "Edit Profile")
-            //     :
-            TitleWidget(title: "Create Profile"),
+        title: Obx(() =>
+            Get.find<CreateEditProfileController>().isUserExist.value
+                ? TitleWidget(title: "Update Profile")
+                : TitleWidget(title: "Create Profile")),
+
+        //  Get.find<DbController>().userData.value!['isProfileCompleted']
+        //     ? TitleWidget(title: "Edit Profile")
+        //     :
+        //     Builder(
+        //   builder: (_) {
+        //     if (Get.find<DbController>().userExistCheck() == true) {
+        //       return TitleWidget(title: "Create Profile");
+        //     }else{
+        //       return TitleWidget(title: "Update Profile");
+        //     }
+        //     ;
+        //   },
+        // ),
+
         leading: Builder(
           builder: (context) => IconButton(
             icon: Material(
@@ -135,14 +151,30 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
                         thickness: 1,
                       ),
                       Obx(() {
-                        switch (Get.find<CreateEditProfileController>()
-                            .userTypeDropDownValue
-                            .value) {
-                          case 'Clint':
-                            return ClintCreateProfile();
+                        if (Get.find<AuthController>().isLoadig.value) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height - 300,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomProgressIndicator(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                TitleWidget(title: "Please Wait...")
+                              ],
+                            ),
+                          );
+                        } else {
+                          switch (Get.find<CreateEditProfileController>()
+                              .userTypeDropDownValue
+                              .value) {
+                            case 'Clint':
+                              return ClintCreateProfile();
 
-                          default:
-                            return UnknownCreateProfile();
+                            default:
+                              return UnknownCreateProfile();
+                          }
                         }
                       }),
                     ],

@@ -1,4 +1,5 @@
 import 'package:afeefa_handloom/app/constents/colors.dart';
+import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,16 +54,14 @@ class CreateProfileWidget extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Obx(() => GradientText(
-                          Get.find<DbController>()
-                              .userData
-                              .value!['phoneNumber'],
+                     GradientText(
+                          Get.find<AuthController>().getPhoneNumber,
                           colors: [
                             royal,
                             royal.withOpacity(0.7),
                           ],
                           style: TextStyle(fontSize: 15),
-                        )),
+                        ),
                     GradientText(
                       'Create Profile',
                       style: Theme.of(context)
