@@ -1,6 +1,7 @@
-import 'package:afeefa_handloom/app/controllers/db_controller.dart';
-import 'package:afeefa_handloom/app/widgets/snakbars.dart';
 import 'package:get/get.dart';
+
+import '../../../controllers/db_controller.dart';
+import '../../../widgets/snakbars.dart';
 
 class HomeController extends GetxController {
   // late Map<String, String?> currentUser;
@@ -15,11 +16,7 @@ class HomeController extends GetxController {
   //   super.onInit();
   // }
 
-  @override
-  void onInit() async {
-   
-    super.onInit();
-  }
+ 
 
   @override
   void onReady() async {

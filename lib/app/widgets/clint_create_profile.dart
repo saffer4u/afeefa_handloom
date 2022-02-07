@@ -159,7 +159,7 @@ class ClintCreateProfile extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Icon(
-                                                Icons.upload,
+                                                Icons.add_a_photo_outlined,
                                                 size: 40,
                                               ),
                                               Text(
@@ -365,7 +365,7 @@ class ClintCreateProfile extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Icon(
-                                                  Icons.upload,
+                                                  Icons.add_a_photo_outlined,
                                                   size: 40,
                                                 ),
                                                 Text(

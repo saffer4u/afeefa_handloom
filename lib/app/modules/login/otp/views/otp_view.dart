@@ -1,15 +1,12 @@
-import 'package:afeefa_handloom/app/constents/colors.dart';
-import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
-import 'package:afeefa_handloom/app/widgets/snakbars.dart';
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/index.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../../../constents/colors.dart';
+import '../../../../controllers/auth_controller.dart';
+import '../../../../widgets/custom_progress_indicator.dart';
 import '../controllers/otp_controller.dart';
 
 class OtpView extends GetView<OtpController> {

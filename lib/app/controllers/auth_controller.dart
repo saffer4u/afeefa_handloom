@@ -1,12 +1,10 @@
-import 'package:afeefa_handloom/app/widgets/snakbars.dart';
-import 'package:afeefa_handloom/app/modules/login/otp/controllers/otp_controller.dart';
-import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/get.dart';
 
+import '../modules/login/otp/controllers/otp_controller.dart';
+import '../routes/app_pages.dart';
+import '../widgets/snakbars.dart';
 import 'db_controller.dart';
 
 class AuthController extends GetxController {
@@ -20,8 +18,6 @@ class AuthController extends GetxController {
   late Rx<User?> firebaseUser;
   var isLoadig = false.obs;
   String _verificationCode = '';
-  
- 
 
   @override
   void onReady() {
@@ -41,7 +37,7 @@ class AuthController extends GetxController {
       // currentUser = getCurrentUserInfo();
       // await Get.find<DbController>().createNewUser(currentUser);
       await Get.find<DbController>().getConfigData();
-       if (await Get.find<DbController>().userExistCheck()) {
+      if (await Get.find<DbController>().userExistCheck()) {
         await Get.find<DbController>().fatchUserData();
       }
       Get.offAllNamed(Routes.HOME);
@@ -97,6 +93,7 @@ class AuthController extends GetxController {
     } on FirebaseAuthException catch (e) {
       FocusScope.of(ctx).unfocus();
       isLoadig.value = false;
+      print(e);
       customBar(
         message: 'Invalid OTP please recheck',
         title: 'Error',

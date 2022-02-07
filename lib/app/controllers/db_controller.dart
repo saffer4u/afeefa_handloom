@@ -1,11 +1,9 @@
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
-import 'package:afeefa_handloom/app/data/config_model.dart';
-import 'package:afeefa_handloom/app/widgets/clint_create_profile.dart';
-import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
+import '../data/config_model.dart';
 import '../modules/home/create_edit_profile/model/user_profile_model.dart';
+import 'auth_controller.dart';
 
 class DbController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;

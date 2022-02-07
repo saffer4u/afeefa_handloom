@@ -1,15 +1,13 @@
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
-import 'package:afeefa_handloom/app/controllers/db_controller.dart';
-import 'package:afeefa_handloom/app/widgets/unknown_create_profile.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../../../constents/colors.dart';
+import '../../../../controllers/auth_controller.dart';
 import '../../../../widgets/clint_create_profile.dart';
 import '../../../../widgets/custom_progress_indicator.dart';
 import '../../../../widgets/title_widget.dart';
+import '../../../../widgets/unknown_create_profile.dart';
 import '../controllers/create_edit_profile_controller.dart';
 
 class CreateEditProfileView extends GetView<CreateEditProfileController> {
@@ -79,13 +77,8 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'User Type',
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      color: royal,
-                                      fontSize: 20,
-                                    ),
+                          SubTitleWidget(
+                            title: 'User Type',
                           ),
                           SizedBox(
                             width: 20,
@@ -185,6 +178,25 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SubTitleWidget extends StatelessWidget {
+  String title;
+  SubTitleWidget({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            color: royal,
+            fontSize: 20,
+          ),
     );
   }
 }

@@ -47,46 +47,74 @@ class HomeView extends GetView<HomeController> {
             backgroundColor: Colors.transparent,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              // height: 5009,
-              child: Column(children: [
-                // Show defferent widget on the basis of user.
-                Obx(() {
+            child: Column(children: [
+              // Show defferent widget on the basis of user.
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Obx(() {
                   // Top drawer widget.
                   if (Get.find<DbController>().userExist.value) {
-                    return Column(
-                      children: [
-                        DrawerProfileCard(),
-                        SizedBox(
-                          height: 200,
-                        ),
-                        CreateProfileWidget(
-                          onPress: () =>
-                              Get.toNamed(Routes.CREATE_EDIT_PROFILE),
-                        ),
-                      ],
-                    );
+                    return DrawerProfileCard();
                   } else {
                     return CreateProfileWidget(
                       onPress: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
                     );
                   }
                 }),
-                Divider(
-                  // indent: 30,
-                  // endIndent: 30,
-                  height: 40,
-                  color: royal.withOpacity(0.2),
-                  thickness: 1,
+              ),
+              Divider(
+                // indent: 30,
+                // endIndent: 30,
+                height: 0,
+                color: royal.withOpacity(0.2),
+                thickness: 1,
+              ),
+
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Obx(
+                      () => Column(
+                        children: [
+                          Get.find<DbController>().userExist.value
+                              ? DrawerMenuButton(
+                                  icon: Icons.edit,
+                                  title: "Update Profile",
+                                  onPressed: () =>
+                                      Get.toNamed(Routes.CREATE_EDIT_PROFILE),
+                                )
+                              : SizedBox.shrink(),
+                          Get.find<DbController>().userProfile.value.isAdmin
+                              ? DrawerMenuButton(
+                                  icon: Icons.add_business_rounded,
+                                  title: "Add Products",
+                                  onPressed: () =>
+                                      Get.toNamed(Routes.ADD_PRODUCT),
+                                )
+                              : SizedBox.shrink(),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                DrawerMenuButton(
-                  icon: Icons.home,
-                  title: "Home",
-                  onPressed: () => Get.back(),
+              ),
+              Divider(
+                // indent: 30,
+                // endIndent: 30,
+                height: 0,
+                color: royal.withOpacity(0.2),
+                thickness: 1,
+              ),
+              // Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                  bottom: 15,
+                  top: 10,
                 ),
-                Spacer(),
-                LogoutButton(
+                child: LogoutButton(
                   onTap: () {
                     // Logout Call
                     // Get.back();
@@ -144,8 +172,8 @@ class HomeView extends GetView<HomeController> {
                     );
                   },
                 ),
-              ]),
-            ),
+              ),
+            ]),
           ),
         ),
       ),

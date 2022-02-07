@@ -13,6 +13,7 @@ dependencies:
   firebase_storage: ^10.2.6
   flutter:
     sdk: flutter
+  flutter_circle_color_picker: ^0.3.0
   flutter_countdown_timer: ^4.1.0
   flutter_image_compress: ^1.1.0
   get: 4.6.1

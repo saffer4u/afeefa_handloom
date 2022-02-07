@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/home/add_product/bindings/add_product_binding.dart';
+import '../modules/home/add_product/views/add_product_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/create_edit_profile/bindings/create_edit_profile_binding.dart';
 import '../modules/home/create_edit_profile/views/create_edit_profile_view.dart';
@@ -27,6 +29,11 @@ class AppPages {
           name: _Paths.CREATE_EDIT_PROFILE,
           page: () => CreateEditProfileView(),
           binding: CreateEditProfileBinding(),
+        ),
+        GetPage(
+          name: _Paths.ADD_PRODUCT,
+          page: () => AddProductView(),
+          binding: AddProductBinding(),
         ),
       ],
     ),

@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 class UserProfile {
   String phoneNumber = 'Unknown';
+  bool isVarified = false;
   bool isAdmin = false;
   int varsion = 1;
-  String userName  = 'Unknown';
+  String userName = 'Unknown';
   String firmName = 'Unknown';
   String profilePicUrl = 'https://picsum.photos/200';
   String logoUrl = 'https://picsum.photos/200';
@@ -15,6 +14,7 @@ class UserProfile {
   String ifscCode = '';
 
   UserProfile({
+    this.isVarified = false,
     this.phoneNumber = 'Unknown',
     this.isAdmin = false,
     this.varsion = 1,
@@ -31,6 +31,7 @@ class UserProfile {
 
   Map<String, dynamic> toMap() {
     return {
+      'isVarified': isVarified,
       'phoneNumber': phoneNumber,
       'isAdmin': isAdmin,
       'varsion': varsion,
@@ -47,6 +48,7 @@ class UserProfile {
   }
 
   UserProfile.toObject(Map<String, dynamic> map) {
+    isVarified = map['isVarified'];
     phoneNumber = map['phoneNumber'];
     isAdmin = map['isAdmin'];
     varsion = map['varsion'];

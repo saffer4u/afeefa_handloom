@@ -1,26 +1,23 @@
-import 'dart:ui';
 
-import 'package:afeefa_handloom/app/constents/colors.dart';
-import 'package:afeefa_handloom/app/widgets/snakbars.dart';
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
-import 'package:afeefa_handloom/app/modules/login/otp/controllers/otp_controller.dart';
-import 'package:afeefa_handloom/app/routes/app_pages.dart';
-import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../../constents/colors.dart';
+import '../../../controllers/auth_controller.dart';
+import '../../../widgets/custom_progress_indicator.dart';
+import '../../../widgets/snakbars.dart';
 import '../controllers/login_controller.dart';
+import '../otp/controllers/otp_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   final Shader linearGradient = LinearGradient(
     colors: <Color>[redOrenge, royal],
   ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
-  bool _visible = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

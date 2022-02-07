@@ -98,6 +98,12 @@ class CreateEditProfileController extends GetxController {
 
   Future<void> createClintProfileModel() async {
     UserProfile clintProfile = UserProfile(
+      isAdmin: Get.find<DbController>().userExist.value
+          ? Get.find<DbController>().userProfile.value.isAdmin
+          : false,
+      isVarified: Get.find<DbController>().userExist.value
+          ? Get.find<DbController>().userProfile.value.isVarified
+          : false,
       userName: userNameController.value.text,
       firmName: firmNameController.value.text,
       gstNo: gstNumberController.value.text,
