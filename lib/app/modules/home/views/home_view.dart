@@ -45,8 +45,7 @@ class HomeView extends GetView<HomeController> {
           child: Drawer(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Column(children: [
               // Show defferent widget on the basis of user.
               Padding(
@@ -81,16 +80,21 @@ class HomeView extends GetView<HomeController> {
                               ? DrawerMenuButton(
                                   icon: Icons.edit,
                                   title: "Update Profile",
-                                  onPressed: () =>
-                                      Get.toNamed(Routes.CREATE_EDIT_PROFILE),
+                                  onPressed: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
                                 )
                               : SizedBox.shrink(),
                           Get.find<DbController>().userProfile.value.isAdmin
                               ? DrawerMenuButton(
                                   icon: Icons.add_business_rounded,
                                   title: "Add Products",
-                                  onPressed: () =>
-                                      Get.toNamed(Routes.ADD_PRODUCT),
+                                  onPressed: () => Get.toNamed(Routes.ADD_PRODUCT),
+                                )
+                              : SizedBox.shrink(),
+                          Get.find<DbController>().userProfile.value.isAdmin
+                              ? DrawerMenuButton(
+                                  icon: Icons.shop_two_rounded,
+                                  title: "Inventory",
+                                  onPressed: () => Get.toNamed(Routes.INVENTORY),
                                 )
                               : SizedBox.shrink(),
                         ],
@@ -120,8 +124,7 @@ class HomeView extends GetView<HomeController> {
                     // Get.back();
                     Get.defaultDialog(
                       title: "",
-                      contentPadding:
-                          EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                      contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                       content: Column(
                         children: [
                           Text(

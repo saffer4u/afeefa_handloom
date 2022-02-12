@@ -5,6 +5,10 @@ import '../modules/home/add_product/views/add_product_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/create_edit_profile/bindings/create_edit_profile_binding.dart';
 import '../modules/home/create_edit_profile/views/create_edit_profile_view.dart';
+import '../modules/home/inventory/bindings/inventory_binding.dart';
+import '../modules/home/inventory/show_product/bindings/show_product_binding.dart';
+import '../modules/home/inventory/show_product/views/show_product_view.dart';
+import '../modules/home/inventory/views/inventory_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/otp/bindings/otp_binding.dart';
@@ -34,6 +38,18 @@ class AppPages {
           name: _Paths.ADD_PRODUCT,
           page: () => AddProductView(),
           binding: AddProductBinding(),
+        ),
+        GetPage(
+          name: _Paths.INVENTORY,
+          page: () => InventoryView(),
+          binding: InventoryBinding(),
+          children: [
+            GetPage(
+              name: _Paths.SHOW_PRODUCT,
+              page: () => ShowProductView(),
+              binding: ShowProductBinding(),
+            ),
+          ],
         ),
       ],
     ),

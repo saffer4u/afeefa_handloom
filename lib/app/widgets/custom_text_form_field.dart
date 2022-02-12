@@ -6,23 +6,30 @@ import '../constents/colors.dart';
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
-  String? Function(String?)? validator;
-  TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final TextCapitalization capitalization;
+  final Widget? prefix;
+  final int? maxLines;
 
   CustomTextFormField({
     Key? key,
+    this.maxLines = 1,
+    this.prefix,
     this.controller,
     this.labelText,
     this.validator,
     this.keyboardType,
+    this.capitalization = TextCapitalization.characters,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       validator: validator,
-      textAlign: TextAlign.center,
-      textCapitalization: TextCapitalization.characters,
+      textAlign: TextAlign.start,
+      textCapitalization: capitalization,
       cursorColor: slate,
       cursorWidth: 2,
       cursorRadius: Radius.circular(50),
@@ -31,8 +38,9 @@ class CustomTextFormField extends StatelessWidget {
             fontSize: 20,
           ),
       controller: controller,
-      keyboardType: keyboardType??TextInputType.name,
+      keyboardType: keyboardType ?? TextInputType.name,
       decoration: InputDecoration(
+        prefix: prefix,
         // helperText: "Hello",
         labelText: labelText,
         isCollapsed: true,
@@ -66,7 +74,7 @@ class CustomTextFormField extends StatelessWidget {
             width: 2,
           ),
         ),
-        errorMaxLines: 2,
+        errorMaxLines: 3,
 
         errorStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
               color: redOrenge.withOpacity(0.8),

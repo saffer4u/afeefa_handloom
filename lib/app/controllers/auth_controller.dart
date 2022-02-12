@@ -18,6 +18,8 @@ class AuthController extends GetxController {
   late Rx<User?> firebaseUser;
   var isLoadig = false.obs;
   String _verificationCode = '';
+ 
+
 
   @override
   void onReady() {

@@ -21,16 +21,10 @@ void main() async {
   Get.put(DbController());
   Get.put(StorageController());
 
-  /*
-  // Before Working code
-  Firebase.initializeApp().then((value) => {
-        Get.put(AuthController()),
-        Get.put(DbController()),
-      });
-*/
+
   runApp(
     MyApp(),
-    // MyImagePicker(),
+    
   );
 }
 

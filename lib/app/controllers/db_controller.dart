@@ -1,12 +1,18 @@
+import 'dart:convert';
+
+import 'package:afeefa_handloom/app/modules/home/add_product/controllers/add_product_controller.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import '../data/config_model.dart';
+import '../modules/home/add_product/model/product.dart';
 import '../modules/home/create_edit_profile/model/user_profile_model.dart';
 import 'auth_controller.dart';
 
 class DbController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   var isAdmin = false.obs;
   late Rx<UserProfile> userProfile;
   var userExist = false.obs;
@@ -39,9 +45,20 @@ class DbController extends GetxController {
     print('Check user exist called');
     try {
       var collectionRef = firestore.collection('users');
-      var doc =
-          await collectionRef.doc(Get.find<AuthController>().getUid).get();
+      var doc = await collectionRef.doc(Get.find<AuthController>().getUid).get();
       userExist.value = doc.exists;
+      return doc.exists;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> productExistCheck(String docName) async {
+    print('Check product exist called');
+    try {
+      var collectionRef = firestore.collection('products');
+      var doc = await collectionRef.doc(docName).get();
+
       return doc.exists;
     } catch (e) {
       rethrow;
@@ -87,13 +104,9 @@ class DbController extends GetxController {
   Future<void> createClintProfile(UserProfile profile) async {
     var collectionRef = firestore.collection('users');
 
-    await collectionRef
-        .doc(Get.find<AuthController>().getUid)
-        .set({"profileCrationTime ": DateTime.now()});
+    await collectionRef.doc(Get.find<AuthController>().getUid).set({"profileCrationTime ": DateTime.now()});
 
-    await collectionRef
-        .doc(Get.find<AuthController>().getUid)
-        .update(profile.toMap());
+    await collectionRef.doc(Get.find<AuthController>().getUid).update(profile.toMap());
 
     await fatchUserData();
 
@@ -104,12 +117,18 @@ class DbController extends GetxController {
     // await getUserData(Get.find<AuthController>().getUid);
   }
 
+  Future<void> addProductToDb() async {
+    Product product = await Get.find<AddProductController>().productToObject();
+    var collectionRef = firestore.collection('products');
+
+    await collectionRef.doc(product.id).set(
+          product.toMap(),
+        );
+  }
+
   Future<void> fatchUserData() async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await firestore
-          .collection('users')
-          .doc(Get.find<AuthController>().getUid)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await firestore.collection('users').doc(Get.find<AuthController>().getUid).get();
       Map<String, dynamic> data = snapshot.data()!;
 
       userProfile = UserProfile.toObject(data).obs;
@@ -118,5 +137,18 @@ class DbController extends GetxController {
       print(e);
       print("User Data fatch error");
     }
+  }
+
+  Stream<List<Product>> readProduct() {
+    var products = firestore.collection("products").snapshots().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => Product.fromJson(
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+    return products;
   }
 }

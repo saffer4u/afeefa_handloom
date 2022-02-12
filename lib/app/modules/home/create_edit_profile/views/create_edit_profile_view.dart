@@ -4,8 +4,9 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../../../constents/colors.dart';
 import '../../../../controllers/auth_controller.dart';
-import '../../../../widgets/clint_create_profile.dart';
+import 'clint_create_profile.dart';
 import '../../../../widgets/custom_progress_indicator.dart';
+import '../../../../widgets/subtitle_widget.dart';
 import '../../../../widgets/title_widget.dart';
 import '../../../../widgets/unknown_create_profile.dart';
 import '../controllers/create_edit_profile_controller.dart';
@@ -182,21 +183,3 @@ class CreateEditProfileView extends GetView<CreateEditProfileController> {
   }
 }
 
-class SubTitleWidget extends StatelessWidget {
-  String title;
-  SubTitleWidget({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-            color: royal,
-            fontSize: 20,
-          ),
-    );
-  }
-}

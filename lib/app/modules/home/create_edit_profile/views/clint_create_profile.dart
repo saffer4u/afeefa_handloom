@@ -12,8 +12,8 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'package:afeefa_handloom/app/modules/home/create_edit_profile/controllers/create_edit_profile_controller.dart';
 
-import '../constents/colors.dart';
-import '../controllers/auth_controller.dart';
+import '../../../../constents/colors.dart';
+import '../../../../controllers/auth_controller.dart';
 
 class ClintCreateProfile extends StatelessWidget {
   const ClintCreateProfile({

@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageController extends GetxController {
   FirebaseStorage storage = FirebaseStorage.instance;
+  
 
   // Future<String?> upladUserImage(File file) async {
   //   Reference reference = storage.ref().child("userImages");

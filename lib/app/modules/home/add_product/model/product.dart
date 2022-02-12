@@ -1,29 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Product {
-  String weight = '0';
+  String weight = '';
   int version = 1;
   String id = '';
   String title = '';
   List<String> images = const [];
-  List<String> sizes = const [];
+  String sizes = '';
   String description = '';
-  double rate = 0;
+  String rate = '';
   String fabric = '';
   List<String> colors = const [];
-  Map<String, String> moreFields = const {};
+  // Map<String, String> moreFields = const {};
   late DateTime productAddTime;
 
   Product({
-    this.weight = '0',
+    this.weight = '',
     this.version = 1,
     this.id = '',
     this.title = '',
     this.images = const [],
-    this.sizes = const [],
+    this.sizes = '',
     this.description = '',
-    this.rate = 0,
+    this.rate = '',
     this.fabric = '',
     this.colors = const [],
-    this.moreFields = const {},
+    // this.moreFields = const {},
     required this.productAddTime,
   });
 
@@ -39,12 +41,12 @@ class Product {
     rate = map['rate'];
     fabric = map['fabric'];
     colors = map['colors'];
-    moreFields = map['moreFields'];
+    // moreFields = map['moreFields'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'weight':weight,
+      'weight': weight,
       'version': version,
       'id': id,
       'title': title,
@@ -56,5 +58,31 @@ class Product {
       'colors': colors,
       'productAddTime': productAddTime,
     };
+  }
+
+  static Product fromJson(Map<String, dynamic> map) {
+    List<String> colors = [];
+    List<String> images = [];
+    for (var item in map['colors']) {
+      colors.add(item);
+    }
+    for (var item in map['images']) {
+      images.add(item);
+    }
+    Product product = Product(
+      productAddTime: (map['productAddTime'] as Timestamp).toDate(),
+      weight: map['weight'],
+      version: map['version'],
+      id: map['id'],
+      title: map['title'],
+      images: images,
+      sizes: map['sizes'],
+      description: map['description'],
+      rate: map['rate'],
+      fabric: map['fabric'],
+      colors: colors,
+    );
+    print(product.toMap());
+    return product;
   }
 }

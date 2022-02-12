@@ -8,6 +8,9 @@ abstract class Routes {
   static const OTP = _Paths.LOGIN + _Paths.OTP;
   static const CREATE_EDIT_PROFILE = _Paths.HOME + _Paths.CREATE_EDIT_PROFILE;
   static const ADD_PRODUCT = _Paths.HOME + _Paths.ADD_PRODUCT;
+  static const INVENTORY = _Paths.HOME + _Paths.INVENTORY;
+  static const SHOW_PRODUCT =
+      _Paths.HOME + _Paths.INVENTORY + _Paths.SHOW_PRODUCT;
 }
 
 abstract class _Paths {
@@ -17,4 +20,6 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const CREATE_EDIT_PROFILE = '/create-edit-profile';
   static const ADD_PRODUCT = '/add-product';
+  static const INVENTORY = '/inventory';
+  static const SHOW_PRODUCT = '/show-product';
 }

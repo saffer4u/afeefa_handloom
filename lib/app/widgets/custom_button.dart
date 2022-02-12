@@ -4,8 +4,10 @@ import 'package:afeefa_handloom/app/constents/colors.dart';
 
 class CustomButton extends StatelessWidget {
   final void Function()? onTap;
+  final IconData? icon;
   final String label;
   const CustomButton({
+    this.icon,
     Key? key,
     required this.onTap,
     required this.label,
@@ -22,12 +24,31 @@ class CustomButton extends StatelessWidget {
       ),
       color: slate,
       onPressed: onTap,
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              fontSize: 17,
-              color: royal,
-            ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 17,
+                  color: royal,
+                ),
+          ),
+          icon != null
+              ? Row(
+                  children: [
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.share,
+                      size: 15,
+                      color: royal,
+                    ),
+                  ],
+                )
+              : SizedBox.shrink(),
+        ],
       ),
     );
   }

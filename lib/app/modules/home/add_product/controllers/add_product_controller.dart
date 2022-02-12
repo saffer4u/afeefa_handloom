@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'package:get/get.dart';
@@ -7,14 +9,28 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../constents/colors.dart';
+import '../model/product.dart';
 
 class AddProductController extends GetxController {
-  final CircleColorPickerController? colorController =
-      CircleColorPickerController(initialColor: slate);
+  // Product product = Product(productAddTime: DateTime.now());
 
+  final formKey = GlobalKey<FormState>();
+
+  // Conterollers
+  final CircleColorPickerController? colorController = CircleColorPickerController(initialColor: slate);
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController sizeController = TextEditingController();
+  final TextEditingController rateController = TextEditingController();
+  final TextEditingController fabricController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  // ImagePicker
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? pickedImagesFileList;
 
+  // Observable variables
   var croppedImageFileList = Rx<List<File?>>([]);
   var pickedColor = Rx<Color>(Colors.blue);
   var pickedColorList = Rx<List<String>>([]);
@@ -76,4 +92,38 @@ class AddProductController extends GetxController {
     pickedColorList.value.remove(color);
     update();
   }
+
+  Future<List<String>> uploadProductImages(List<File?> files) async {
+    List<String> imagesLinkList = [];
+    for (var file in files) {
+      var fileLink = await Get.find<StorageController>().upladImageToFirebaseStorage(
+        path: 'productimages/${idController.text}',
+        file: file!,
+        fileName: file.path.split('/').last,
+      );
+      if (fileLink != null) {
+        imagesLinkList.add(fileLink);
+      }
+    }
+    print(imagesLinkList);
+    return imagesLinkList;
+  }
+
+  Future<Product> productToObject() async {
+    Product product = Product(
+        productAddTime: DateTime.now(),
+        colors: pickedColorList.value,
+        description: descriptionController.text.trim(),
+        fabric: fabricController.text.trim(),
+        id: "AH${idController.text}",
+        rate: rateController.text.trim(),
+        title: titleController.text.trim(),
+        sizes: sizeController.text.trim(),
+        weight: weightController.text.trim(),
+        images: await uploadProductImages(croppedImageFileList.value));
+
+    return product;
+  }
+
+ 
 }
