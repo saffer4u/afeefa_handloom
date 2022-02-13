@@ -1,6 +1,8 @@
+import 'package:afeefa_handloom/app/modules/home/views/admin_chat_view.dart';
 import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:afeefa_handloom/app/widgets/Logout_button_Widget.dart';
 import 'package:afeefa_handloom/app/widgets/drawer_profile_card_widget.dart';
+import 'package:afeefa_handloom/app/widgets/title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,12 +20,6 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // await Get.find<DbController>().fatchUserData();
-        },
-        child: Text("Test"),
-      ),
       drawer: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 5,
@@ -193,6 +189,8 @@ class HomeView extends GetView<HomeController> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
+        title: TitleWidget(title: "Afeefa Handloom"),
+        centerTitle: true,
       ),
       body: Builder(builder: (context) {
         return GestureDetector(
@@ -212,18 +210,8 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             child: SafeArea(
-              child: Center(
-                child: GradientText(
-                  // 'Admin : ${Get.find<DbController>().userData.value}, : ${Get.find<DbController>().isAdmin.value}',
-                  // style: TextStyle(fontSize: 20),
-                  "Home",
-                  colors: [royal, redOrenge],
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              // Impliment Home Screen logic here...
+              child: AdminChatView(),
             ),
           ),
         );

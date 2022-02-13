@@ -11,8 +11,7 @@ abstract class Routes {
   static const INVENTORY = _Paths.HOME + _Paths.INVENTORY;
   static const SHOW_PRODUCT =
       _Paths.HOME + _Paths.INVENTORY + _Paths.SHOW_PRODUCT;
-  static const UPDATE_PRODUCT_INFO =
-      _Paths.HOME + _Paths.INVENTORY + _Paths.UPDATE_PRODUCT_INFO;
+ 
 }
 
 abstract class _Paths {
@@ -24,5 +23,5 @@ abstract class _Paths {
   static const ADD_PRODUCT = '/add-product';
   static const INVENTORY = '/inventory';
   static const SHOW_PRODUCT = '/show-product';
-  static const UPDATE_PRODUCT_INFO = '/update-product-info';
+  
 }

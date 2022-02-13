@@ -113,7 +113,7 @@ class AddProductController extends GetxController {
   Future<Product> productToObject() async {
     Product product = Product(
         productAddTime: DateTime.now(),
-        stock: int.parse(stockController.text),
+        stock: int.parse(stockController.text.isEmpty ? "0" : stockController.text),
         colors: pickedColorList.value,
         description: descriptionController.text.trim(),
         fabric: fabricController.text.trim(),

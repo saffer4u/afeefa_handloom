@@ -152,7 +152,35 @@ class DbController extends GetxController {
     return products;
   }
 
+  Stream<QuerySnapshot> getUsersStream() {
+    return firestore.collection('users').snapshots();
+  }
+
   Future<void> deleteProductFromDb(String docId) async {
     await firestore.collection("products").doc(docId).delete();
+  }
+
+  Future<void> updateValueInDb({
+    required String docId,
+    required String key,
+    required String value,
+  }) async {
+    if (key == 'stock') {
+      await firestore.collection("products").doc(docId).update({
+        key: int.parse(value),
+      });
+    } else {
+      await firestore.collection("products").doc(docId).update({
+        key: value,
+      });
+    }
+  }
+
+  Future<void> updateColorsInDb({
+    required String docId,
+    required String key,
+    required List<String> value,
+  }) async {
+    await firestore.collection("products").doc(docId).update({key: value});
   }
 }
