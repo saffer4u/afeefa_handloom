@@ -41,7 +41,7 @@ class CustomButton extends StatelessWidget {
                       width: 5,
                     ),
                     Icon(
-                      Icons.share,
+                      icon,
                       size: 15,
                       color: royal,
                     ),

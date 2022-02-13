@@ -8,6 +8,8 @@ import '../modules/home/create_edit_profile/views/create_edit_profile_view.dart'
 import '../modules/home/inventory/bindings/inventory_binding.dart';
 import '../modules/home/inventory/show_product/bindings/show_product_binding.dart';
 import '../modules/home/inventory/show_product/views/show_product_view.dart';
+import '../modules/home/inventory/update_product_info/bindings/update_product_info_binding.dart';
+import '../modules/home/inventory/update_product_info/views/update_product_info_view.dart';
 import '../modules/home/inventory/views/inventory_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -48,6 +50,11 @@ class AppPages {
               name: _Paths.SHOW_PRODUCT,
               page: () => ShowProductView(),
               binding: ShowProductBinding(),
+            ),
+            GetPage(
+              name: _Paths.UPDATE_PRODUCT_INFO,
+              page: () => UpdateProductInfoView(),
+              binding: UpdateProductInfoBinding(),
             ),
           ],
         ),

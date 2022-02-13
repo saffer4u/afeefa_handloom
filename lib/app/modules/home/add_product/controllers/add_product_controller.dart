@@ -25,6 +25,7 @@ class AddProductController extends GetxController {
   final TextEditingController rateController = TextEditingController();
   final TextEditingController fabricController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController stockController = TextEditingController();
 
   // ImagePicker
   final ImagePicker imagePicker = ImagePicker();
@@ -97,7 +98,7 @@ class AddProductController extends GetxController {
     List<String> imagesLinkList = [];
     for (var file in files) {
       var fileLink = await Get.find<StorageController>().upladImageToFirebaseStorage(
-        path: 'productimages/${idController.text}',
+        path: 'productimages/AH${idController.text}',
         file: file!,
         fileName: file.path.split('/').last,
       );
@@ -105,13 +106,14 @@ class AddProductController extends GetxController {
         imagesLinkList.add(fileLink);
       }
     }
-    print(imagesLinkList);
+    // print(imagesLinkList);
     return imagesLinkList;
   }
 
   Future<Product> productToObject() async {
     Product product = Product(
         productAddTime: DateTime.now(),
+        stock: int.parse(stockController.text),
         colors: pickedColorList.value,
         description: descriptionController.text.trim(),
         fabric: fabricController.text.trim(),
@@ -124,6 +126,4 @@ class AddProductController extends GetxController {
 
     return product;
   }
-
- 
 }

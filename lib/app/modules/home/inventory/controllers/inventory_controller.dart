@@ -6,13 +6,11 @@ import 'package:get/get.dart';
 import '../../add_product/model/product.dart';
 
 class InventoryController extends GetxController {
-  @override
-  void onInit() async {
-    // await getAllProducts();
-    super.onInit();
-  }
+  var totalStock = 0.obs;
 
-  List<Product> allProducts = [];
+  
+
+  // List<Product> allProducts = [];
 
   // Future<void> getAllProducts() async {
   //   allProducts = await Get.find<DbController>().getAllProductsInCollection('products');

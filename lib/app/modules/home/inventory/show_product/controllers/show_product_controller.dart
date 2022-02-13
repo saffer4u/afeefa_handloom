@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -23,5 +25,11 @@ class ShowProductController extends GetxController {
       imagePathsList,
       text: text,
     );
+  }
+
+  Future<void> deleteImages(List<dynamic> imagesList) async {
+    for (var i = 0; i < imagesList.length; i++) {
+      await Get.find<StorageController>().deleteImageFromStorage(imagesList[i]);
+    }
   }
 }

@@ -13,8 +13,10 @@ class Product {
   List<String> colors = const [];
   // Map<String, String> moreFields = const {};
   late DateTime productAddTime;
+  int stock = 0;
 
   Product({
+    this.stock = 0,
     this.weight = '',
     this.version = 1,
     this.id = '',
@@ -30,6 +32,7 @@ class Product {
   });
 
   Product.toObject(Map<String, dynamic> map) {
+    stock = map['stock'];
     weight = map['weight'];
     version = map['version'];
     productAddTime = map['productAddTime'];
@@ -46,6 +49,7 @@ class Product {
 
   Map<String, dynamic> toMap() {
     return {
+      'stock':stock,
       'weight': weight,
       'version': version,
       'id': id,
@@ -70,6 +74,7 @@ class Product {
       images.add(item);
     }
     Product product = Product(
+      stock:map['stock'],
       productAddTime: (map['productAddTime'] as Timestamp).toDate(),
       weight: map['weight'],
       version: map['version'],

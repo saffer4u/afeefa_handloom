@@ -140,7 +140,7 @@ class DbController extends GetxController {
   }
 
   Stream<List<Product>> readProduct() {
-    var products = firestore.collection("products").snapshots().map(
+    var products = firestore.collection("products").orderBy('productAddTime', descending: true).snapshots().map(
           (snapshot) => snapshot.docs
               .map(
                 (doc) => Product.fromJson(
@@ -150,5 +150,9 @@ class DbController extends GetxController {
               .toList(),
         );
     return products;
+  }
+
+  Future<void> deleteProductFromDb(String docId) async {
+    await firestore.collection("products").doc(docId).delete();
   }
 }

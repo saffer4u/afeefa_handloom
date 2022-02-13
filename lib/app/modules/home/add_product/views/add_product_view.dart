@@ -428,6 +428,16 @@ class AddProductView extends GetView<AddProductController> {
                                         ),
                                       ),
                                     ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        controller: Get.find<AddProductController>().stockController,
+                                        keyboardType: TextInputType.number,
+                                        labelText: 'Stock',
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
