@@ -1,4 +1,7 @@
-import 'package:afeefa_handloom/app/modules/home/views/admin_chat_view.dart';
+import 'package:afeefa_handloom/app/modules/home/clint_dashbord/views/clint_dashbord_view.dart';
+import 'package:afeefa_handloom/app/modules/home/store/views/store_view.dart';
+import 'package:afeefa_handloom/app/modules/home/views/admin_chat_widget.dart';
+import 'package:afeefa_handloom/app/modules/home/views/clint_chat_view.dart';
 import 'package:afeefa_handloom/app/routes/app_pages.dart';
 import 'package:afeefa_handloom/app/widgets/Logout_button_Widget.dart';
 import 'package:afeefa_handloom/app/widgets/drawer_profile_card_widget.dart';
@@ -14,7 +17,9 @@ import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/widgets/drawer_create_profile_widget.dart';
 
 import '../../../widgets/drawer_menu_button.dart';
+import '../../../widgets/subtitle_widget.dart';
 import '../controllers/home_controller.dart';
+import 'clint_create_profile_view.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -69,33 +74,78 @@ class HomeView extends GetView<HomeController> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Obx(
-                      () => Column(
-                        children: [
-                          Get.find<DbController>().userExist.value
-                              ? DrawerMenuButton(
-                                  icon: Icons.edit,
-                                  title: "Update Profile",
-                                  onPressed: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
-                                )
-                              : SizedBox.shrink(),
-                          Get.find<DbController>().userProfile.value.isAdmin
-                              ? DrawerMenuButton(
-                                  icon: Icons.add_business_rounded,
-                                  title: "Add Products",
-                                  onPressed: () => Get.toNamed(Routes.ADD_PRODUCT),
-                                )
-                              : SizedBox.shrink(),
-                          Get.find<DbController>().userProfile.value.isAdmin
-                              ? DrawerMenuButton(
-                                  icon: Icons.shop_two_rounded,
-                                  title: "Inventory",
-                                  onPressed: () => Get.toNamed(Routes.INVENTORY),
-                                )
-                              : SizedBox.shrink(),
-                        ],
-                      ),
-                    ),
+                    child: Obx(() {
+                      if (Get.find<DbController>().userExist.value) {
+                        return Column(
+                          children: [
+                            Get.find<DbController>().userExist.value
+                                ? DrawerMenuButton(
+                                    icon: Icons.edit,
+                                    title: "Update Profile",
+                                    onPressed: () => Get.toNamed(Routes.CREATE_EDIT_PROFILE),
+                                  )
+                                : SizedBox.shrink(),
+                            Get.find<DbController>().userProfile.value.isAdmin
+                                ? SizedBox.shrink()
+                                : DrawerMenuButton(
+                                    icon: Icons.dashboard_rounded,
+                                    title: "Dashbord",
+                                    onPressed: () {
+                                      Get.back();
+                                      Get.find<HomeController>().clint_page_controller.jumpToPage(0);
+                                    },
+                                  ),
+                            //! Cart button for clints.
+                            Get.find<DbController>().userProfile.value.isAdmin
+                                ? SizedBox.shrink()
+                                : DrawerMenuButton(
+                                    icon: Icons.shopping_cart,
+                                    title: "Cart",
+                                    onPressed: () {
+                                      Get.back();
+                                      // Get.find<HomeController>().clint_page_controller.jumpToPage(2);
+                                    },
+                                  ),
+                            Get.find<DbController>().userProfile.value.isAdmin
+                                ? SizedBox.shrink()
+                                : DrawerMenuButton(
+                                    icon: Icons.category_rounded,
+                                    title: "Store",
+                                    onPressed: () {
+                                      Get.back();
+                                      Get.find<HomeController>().clint_page_controller.jumpToPage(1);
+                                    },
+                                  ),
+                            Get.find<DbController>().userProfile.value.isAdmin
+                                ? SizedBox.shrink()
+                                : DrawerMenuButton(
+                                    icon: Icons.message,
+                                    title: "Support",
+                                    onPressed: () {
+                                      Get.back();
+                                      Get.find<HomeController>().clint_page_controller.jumpToPage(2);
+                                    },
+                                  ),
+                            Get.find<DbController>().userProfile.value.isAdmin
+                                ? DrawerMenuButton(
+                                    icon: Icons.add_business_rounded,
+                                    title: "Add Products",
+                                    onPressed: () => Get.toNamed(Routes.ADD_PRODUCT),
+                                  )
+                                : SizedBox.shrink(),
+                            Get.find<DbController>().userProfile.value.isAdmin
+                                ? DrawerMenuButton(
+                                    icon: Icons.shop_two_rounded,
+                                    title: "Inventory",
+                                    onPressed: () => Get.toNamed(Routes.INVENTORY),
+                                  )
+                                : SizedBox.shrink(),
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }),
                   ),
                 ),
               ),
@@ -189,7 +239,7 @@ class HomeView extends GetView<HomeController> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        title: TitleWidget(title: "Afeefa Handloom"),
+        title: Obx(() => TitleWidget(title: Get.find<HomeController>().title.value)),
         centerTitle: true,
       ),
       body: Builder(builder: (context) {
@@ -211,7 +261,35 @@ class HomeView extends GetView<HomeController> {
             ),
             child: SafeArea(
               // Impliment Home Screen logic here...
-              child: AdminChatView(),
+              child: Obx(() {
+                if (Get.find<DbController>().userExist.value) {
+                  //  print('See if Admin is true : ${Get.find<DbController>().isAdmin.value}');
+                  if (Get.find<DbController>().isAdmin.value) {
+                    return AdminChatWidget();
+                  } else {
+                    return PageView(
+                      onPageChanged: (index) {
+                        if (index == 0) {
+                          Get.find<HomeController>().title.value = "Dashbord";
+                        } else if (index == 1) {
+                          Get.find<HomeController>().title.value = "Store";
+                        } else if (index == 2) {
+                          Get.find<HomeController>().title.value = "Support";
+                        }
+                      },
+                      physics: BouncingScrollPhysics(),
+                      controller: Get.find<HomeController>().clint_page_controller,
+                      children: [
+                        ClintDashbordView(),
+                        StoreView(),
+                        ClintChatView(),
+                      ],
+                    );
+                  }
+                } else {
+                  return ClintCreateProfileView();
+                }
+              }),
             ),
           ),
         );

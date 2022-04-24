@@ -1,22 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/db_controller.dart';
 import '../../../widgets/snakbars.dart';
 
 class HomeController extends GetxController {
-  // late Map<String, String?> currentUser;
-
-  // @override
-  // void onInit(){
-  //   // currentUser = Get.find<AuthController>().getCurrentUserInfo();
-  //   // Get.find<DbController>().createNewUser(currentUser);
-  //   // Get.find<DbController>().checkIsAdmin(Get.find<AuthController>().getUid);
-  //   // Get.find<DbController>().getUserData(Get.find<AuthController>().getUid);
-
-  //   super.onInit();
-  // }
-
- 
+  var title = "Afeefa Handloom".obs;
+  PageController clint_page_controller = PageController(
+    initialPage: 0,
+  );
 
   @override
   void onReady() async {

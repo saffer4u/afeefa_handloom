@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserProfile {
   String phoneNumber = 'Unknown';
   bool isVarified = false;
@@ -12,6 +14,7 @@ class UserProfile {
   String accountNo = '';
   String bankName = '';
   String ifscCode = '';
+  late DateTime lastMessageTime;
 
   UserProfile({
     this.isVarified = false,
@@ -27,6 +30,7 @@ class UserProfile {
     this.accountNo = '',
     this.bankName = '',
     this.ifscCode = '',
+    required this.lastMessageTime,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,6 +48,7 @@ class UserProfile {
       'accountNo': accountNo,
       'bankName': bankName,
       'ifscCode': ifscCode,
+      'lastMessageTime': lastMessageTime,
     };
   }
 
@@ -61,5 +66,6 @@ class UserProfile {
     accountNo = map['accountNo'];
     bankName = map['bankName'];
     ifscCode = map['ifscCode'];
+    lastMessageTime = map['lastMessageTime'].toDate();
   }
 }

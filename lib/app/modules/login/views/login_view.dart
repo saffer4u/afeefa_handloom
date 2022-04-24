@@ -1,5 +1,3 @@
-
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +30,7 @@ class LoginView extends GetView<LoginController> {
       child: Obx(
         () => SafeArea(
           child: Get.find<AuthController>().isLoadig.isTrue
-              ? CustomProgressIndicator()
+              ? Center(child: CustomProgressIndicator())
               : FadeTransition(
                   opacity: Get.find<LoginController>().fadeInFadeOut,
                   child: Padding(
@@ -42,7 +40,7 @@ class LoginView extends GetView<LoginController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           Material(
                             elevation: 20.0,
@@ -54,9 +52,9 @@ class LoginView extends GetView<LoginController> {
                               width: 180,
                             ),
                           ),
-                          SizedBox(
-                            height: 30,
-                          ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
                           SizedBox(
                             // width: 250.0,
                             child: DefaultTextStyle(
@@ -80,9 +78,9 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 40,
-                          ),
+                          // SizedBox(
+                          //   height: 30,
+                          // ),
                           GradientText(
                             "Please verify your phone number to get started.",
                             colors: [redOrenge, royal],
@@ -99,8 +97,7 @@ class LoginView extends GetView<LoginController> {
                                   color: Colors.grey.shade900,
                                   fontSize: 25,
                                 ),
-                                controller: Get.find<LoginController>()
-                                    .phoneNumberController,
+                                controller: Get.find<LoginController>().phoneNumberController,
                                 keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
                                   isDense: true,
@@ -145,8 +142,7 @@ class LoginView extends GetView<LoginController> {
                               fillColor: slate,
                               splashColor: redOrenge,
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -182,33 +178,20 @@ class LoginView extends GetView<LoginController> {
                                   ],
                                 ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                               onPressed: () {
-                                if (Get.find<LoginController>()
-                                        .phoneNumberController
-                                        .text
-                                        .length !=
-                                    10) {
-                                  customBar(
-                                      duration: 2,
-                                      title: 'Invalid Phone No.',
-                                      message:
-                                          "Phone number should be 10 digits.");
+                                if (Get.find<LoginController>().phoneNumberController.text.length != 10) {
+                                  customBar(duration: 2, title: 'Invalid Phone No.', message: "Phone number should be 10 digits.");
                                 } else {
-                                  if (Get.find<OtpController>().seconds.value !=
-                                      0) {
+                                  if (Get.find<OtpController>().seconds.value != 0) {
                                     customBar(
                                         duration: 2,
-                                        title:
-                                            'Please Wait : ${Get.find<OtpController>().seconds.value} Seconds',
-                                        message:
-                                            "Multiple OTP can not be sent within 60 seconds");
+                                        title: 'Please Wait : ${Get.find<OtpController>().seconds.value} Seconds',
+                                        message: "Multiple OTP can not be sent within 60 seconds");
                                   } else {
                                     Get.defaultDialog(
                                       title: "",
-                                      contentPadding: EdgeInsets.only(
-                                          left: 20, right: 20, bottom: 20),
+                                      contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                                       content: Column(
                                         children: [
                                           Text(
@@ -219,7 +202,7 @@ class LoginView extends GetView<LoginController> {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 30,
+                                            height: 20,
                                           ),
                                           GradientText(
                                             "We will be verifying the phone number.\nIs this OK, or would you like to edit the number?",
@@ -232,10 +215,8 @@ class LoginView extends GetView<LoginController> {
                                         ],
                                       ),
                                       backgroundColor: slate,
-                                      titleStyle:
-                                          TextStyle(color: Colors.white),
-                                      middleTextStyle:
-                                          TextStyle(color: Colors.white),
+                                      titleStyle: TextStyle(color: Colors.white),
+                                      middleTextStyle: TextStyle(color: Colors.white),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
@@ -251,15 +232,13 @@ class LoginView extends GetView<LoginController> {
                                               ),
                                             )),
                                         TextButton(
-                                            onPressed: () async{
+                                            onPressed: () async {
                                               Get.back();
 
-                                              Get.find<AuthController>()
-                                                  .isLoadig
-                                                  .value = true;
+                                              Get.find<AuthController>().isLoadig.value = true;
 
-                                              await Get.find<AuthController>().phoneLogIn(
-                                                  '+91${Get.find<LoginController>().phoneNumberController.text}');
+                                              await Get.find<AuthController>()
+                                                  .phoneLogIn('+91${Get.find<LoginController>().phoneNumberController.text}');
                                             },
                                             child: Text(
                                               'Ok',

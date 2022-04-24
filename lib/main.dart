@@ -13,18 +13,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app/constents/colors.dart';
 import 'app/routes/app_pages.dart';
 
+
+//? Problems : 
+//! Impliment logic to delete product from main Inventory as well as assigned product.
+//! Push notificaiton is not implimented.
+//! lastMessageTime of user_profile_model may affect on new user creation or update user profile.
+////// User profile did not get updated after updating profile : Solved by Restarting app.
+//! Admin chat stream builder controller get closed when update profile.
+
 void main() async {
-  //!Uncomment these lines.
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Get.put(AuthController());
   Get.put(DbController());
   Get.put(StorageController());
 
-
   runApp(
     MyApp(),
-    
   );
 }
 

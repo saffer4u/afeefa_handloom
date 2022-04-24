@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:afeefa_handloom/app/modules/home/add_product/controllers/add_product_controller.dart';
 
@@ -132,6 +133,7 @@ class DbController extends GetxController {
       Map<String, dynamic> data = snapshot.data()!;
 
       userProfile = UserProfile.toObject(data).obs;
+      isAdmin.value = userProfile.value.isAdmin;
       print('User data fatched');
     } catch (e) {
       print(e);
@@ -153,7 +155,11 @@ class DbController extends GetxController {
   }
 
   Stream<QuerySnapshot> getUsersStream() {
-    return firestore.collection('users').snapshots();
+    return firestore.collection('users').orderBy('lastMessageTime', descending: true).snapshots();
+  }
+
+  Stream<QuerySnapshot> getUserMessageStream({required docId}) {
+    return firestore.collection('users').doc(docId).collection('chats').orderBy('createdAt', descending: true).snapshots();
   }
 
   Future<void> deleteProductFromDb(String docId) async {
@@ -182,5 +188,48 @@ class DbController extends GetxController {
     required List<String> value,
   }) async {
     await firestore.collection("products").doc(docId).update({key: value});
+  }
+
+  Future<void> varificationChange({required String docId, required bool value}) async {
+    await firestore.collection('users').doc(docId).update(
+      {'isVarified': value},
+    );
+  }
+
+  Future<void> sendMessage({
+    required String docId,
+    required Map<String, dynamic> data,
+  }) async {
+    await firestore.collection('users').doc(docId).collection('chats').add(data);
+  }
+
+  Future<void> assignProduct({
+    required String docId,
+    required Map<String, dynamic> data,
+  }) async {
+    await firestore.collection('users').doc(docId).collection('assignedProducts').doc(data['id']).set(data);
+  }
+
+  Future<void> deleteAssignedProduct({required String docId, required String productId}) async {
+    await firestore.collection("users/$docId/assignedProducts").doc(productId).delete();
+  }
+
+  Future<void> changeLastMessageTime({required String docId}) async {
+    await firestore.collection('users').doc(docId).update({"lastMessageTime": DateTime.now()});
+  }
+
+  Future<List<Map<String, dynamic>>> getAllAssignedProductList(String uid) async {
+    var snapshot = await firestore.collection("users/$uid/assignedProducts").get();
+
+    List<Map<String, dynamic>> assignedProducts = [];
+    // snapshot.docs.forEach((element) {
+    //   assignedProducts = element.data();
+    // });
+
+    snapshot.docs.forEach((element) {
+      assignedProducts.add(element.data());
+    });
+    // print(assignedProducts);
+    return assignedProducts;
   }
 }

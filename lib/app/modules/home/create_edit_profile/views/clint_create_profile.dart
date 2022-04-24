@@ -7,6 +7,7 @@ import 'package:afeefa_handloom/app/widgets/title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:restart_app/restart_app.dart';
 
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -62,11 +63,10 @@ class ClintCreateProfile extends StatelessWidget {
                       children: [
                         GradientText(
                           'User Info',
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: royal,
-                                    fontSize: 20,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                color: royal,
+                                fontSize: 20,
+                              ),
                           colors: [royal, redOrenge],
                         ),
                         SizedBox(
@@ -79,50 +79,28 @@ class ClintCreateProfile extends StatelessWidget {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(50),
                                 splashColor: redOrenge,
-                                onTap: () =>
-                                    Get.find<CreateEditProfileController>()
-                                        .picImageSquare(ImageType.user),
+                                onTap: () => Get.find<CreateEditProfileController>().picImageSquare(ImageType.user),
                                 child: CircleAvatar(
                                   backgroundColor: Colors.transparent,
                                   radius: 40,
                                   child: Obx(
                                     () {
-                                      if (Get.find<DbController>()
-                                                  .userExist
-                                                  .value ==
-                                              true &&
-                                          Get.find<CreateEditProfileController>()
-                                                  .uploadImageFile
-                                                  .value ==
-                                              null) {
+                                      if (Get.find<DbController>().userExist.value == true &&
+                                          Get.find<CreateEditProfileController>().uploadImageFile.value == null) {
                                         return ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                          borderRadius: BorderRadius.circular(50),
                                           child: Image.network(
-                                            Get.find<DbController>()
-                                                .userProfile
-                                                .value
-                                                .profilePicUrl,
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                    Widget child,
-                                                    ImageChunkEvent?
-                                                        loadingProgress) {
+                                            Get.find<DbController>().userProfile.value.profilePicUrl,
+                                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                               if (loadingProgress == null) {
                                                 return child;
                                               }
                                               return Center(
-                                                child:
-                                                    CircularProgressIndicator(
+                                                child: CircularProgressIndicator(
                                                   backgroundColor: royal,
                                                   color: redOrenge,
-                                                  value: loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!
+                                                  value: loadingProgress.expectedTotalBytes != null
+                                                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                                                       : null,
                                                 ),
                                               );
@@ -130,33 +108,23 @@ class ClintCreateProfile extends StatelessWidget {
                                           ),
                                         );
                                       } else {
-                                        if (Get.find<
-                                                    CreateEditProfileController>()
-                                                .uploadImageFile
-                                                .value !=
-                                            null) {
+                                        if (Get.find<CreateEditProfileController>().uploadImageFile.value != null) {
                                           return Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
                                                 width: 2,
                                                 color: royal.withOpacity(0.6),
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(17),
+                                              borderRadius: BorderRadius.circular(17),
                                             ),
                                             child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: Image.file(Get.find<
-                                                      CreateEditProfileController>()
-                                                  .uploadImageFile
-                                                  .value!),
+                                              borderRadius: BorderRadius.circular(15),
+                                              child: Image.file(Get.find<CreateEditProfileController>().uploadImageFile.value!),
                                             ),
                                           );
                                         } else {
                                           return Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Icon(
                                                 Icons.add_a_photo_outlined,
@@ -164,10 +132,7 @@ class ClintCreateProfile extends StatelessWidget {
                                               ),
                                               Text(
                                                 'Image',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .copyWith(
+                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       color: royal,
                                                       fontSize: 10,
                                                     ),
@@ -196,9 +161,7 @@ class ClintCreateProfile extends StatelessWidget {
                                         return null;
                                       }
                                     }),
-                                    controller:
-                                        Get.find<CreateEditProfileController>()
-                                            .userNameController,
+                                    controller: Get.find<CreateEditProfileController>().userNameController,
                                     labelText: "Name",
                                   ),
                                   SizedBox(
@@ -212,15 +175,11 @@ class ClintCreateProfile extends StatelessWidget {
                                       )
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 4),
+                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                                       decoration: BoxDecoration(
                                           color: slate.withOpacity(0.5),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: royal.withOpacity(0.4),
-                                              width: 2)),
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(color: royal.withOpacity(0.4), width: 2)),
                                       child: GradientText(
                                         "Phone No. ${Get.find<AuthController>().getPhoneNumber}",
                                         colors: [
@@ -268,11 +227,10 @@ class ClintCreateProfile extends StatelessWidget {
                       children: [
                         GradientText(
                           'firm Info',
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: royal,
-                                    fontSize: 20,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                color: royal,
+                                fontSize: 20,
+                              ),
                           colors: [royal, redOrenge],
                         ),
                         SizedBox(
@@ -285,50 +243,28 @@ class ClintCreateProfile extends StatelessWidget {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(50),
                                 splashColor: redOrenge,
-                                onTap: () =>
-                                    Get.find<CreateEditProfileController>()
-                                        .picImageSquare(ImageType.logo),
+                                onTap: () => Get.find<CreateEditProfileController>().picImageSquare(ImageType.logo),
                                 child: CircleAvatar(
                                     backgroundColor: Colors.transparent,
                                     radius: 40,
                                     child: Obx(
                                       () {
-                                        if (Get.find<DbController>()
-                                                    .userExist
-                                                    .value ==
-                                                true &&
-                                            Get.find<CreateEditProfileController>()
-                                                    .uploadLogoFile
-                                                    .value ==
-                                                null) {
+                                        if (Get.find<DbController>().userExist.value == true &&
+                                            Get.find<CreateEditProfileController>().uploadLogoFile.value == null) {
                                           return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
+                                            borderRadius: BorderRadius.circular(50),
                                             child: Image.network(
-                                              Get.find<DbController>()
-                                                  .userProfile
-                                                  .value
-                                                  .logoUrl,
-                                              loadingBuilder:
-                                                  (BuildContext context,
-                                                      Widget child,
-                                                      ImageChunkEvent?
-                                                          loadingProgress) {
+                                              Get.find<DbController>().userProfile.value.logoUrl,
+                                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                                 if (loadingProgress == null) {
                                                   return child;
                                                 }
                                                 return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
+                                                  child: CircularProgressIndicator(
                                                     backgroundColor: royal,
                                                     color: redOrenge,
-                                                    value: loadingProgress
-                                                                .expectedTotalBytes !=
-                                                            null
-                                                        ? loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!
+                                                    value: loadingProgress.expectedTotalBytes != null
+                                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                                                         : null,
                                                   ),
                                                 );
@@ -336,33 +272,23 @@ class ClintCreateProfile extends StatelessWidget {
                                             ),
                                           );
                                         } else {
-                                          if (Get.find<
-                                                      CreateEditProfileController>()
-                                                  .uploadLogoFile
-                                                  .value !=
-                                              null) {
+                                          if (Get.find<CreateEditProfileController>().uploadLogoFile.value != null) {
                                             return Container(
                                               decoration: BoxDecoration(
                                                 border: Border.all(
                                                   width: 2,
                                                   color: royal.withOpacity(0.6),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(17),
+                                                borderRadius: BorderRadius.circular(17),
                                               ),
                                               child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                child: Image.file(Get.find<
-                                                        CreateEditProfileController>()
-                                                    .uploadLogoFile
-                                                    .value!),
+                                                borderRadius: BorderRadius.circular(15),
+                                                child: Image.file(Get.find<CreateEditProfileController>().uploadLogoFile.value!),
                                               ),
                                             );
                                           } else {
                                             return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Icon(
                                                   Icons.add_a_photo_outlined,
@@ -370,10 +296,7 @@ class ClintCreateProfile extends StatelessWidget {
                                                 ),
                                                 Text(
                                                   'Logo',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .copyWith(
+                                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                         color: royal,
                                                         fontSize: 10,
                                                       ),
@@ -401,9 +324,7 @@ class ClintCreateProfile extends StatelessWidget {
                                         return null;
                                       }
                                     }),
-                                    controller:
-                                        Get.find<CreateEditProfileController>()
-                                            .firmNameController,
+                                    controller: Get.find<CreateEditProfileController>().firmNameController,
                                     labelText: 'firm Name',
                                   ),
                                   SizedBox(
@@ -419,9 +340,7 @@ class ClintCreateProfile extends StatelessWidget {
                                         return null;
                                       }
                                     }),
-                                    controller:
-                                        Get.find<CreateEditProfileController>()
-                                            .gstNumberController,
+                                    controller: Get.find<CreateEditProfileController>().gstNumberController,
                                     labelText: "GST Number",
                                   ),
                                 ],
@@ -439,11 +358,10 @@ class ClintCreateProfile extends StatelessWidget {
                         ),
                         GradientText(
                           'Bank Account Info',
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: royal,
-                                    fontSize: 15,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                color: royal,
+                                fontSize: 15,
+                              ),
                           colors: [royal, redOrenge],
                         ),
                         SizedBox(
@@ -451,21 +369,18 @@ class ClintCreateProfile extends StatelessWidget {
                         ),
                         CustomTextFormField(
                           labelText: "Bank Name ( Optional )",
-                          controller: Get.find<CreateEditProfileController>()
-                              .bankNameController,
+                          controller: Get.find<CreateEditProfileController>().bankNameController,
                         ),
                         SizedBox(height: 10),
                         CustomTextFormField(
                           keyboardType: TextInputType.number,
                           labelText: "Account No. ( Optional )",
-                          controller: Get.find<CreateEditProfileController>()
-                              .accountNumberController,
+                          controller: Get.find<CreateEditProfileController>().accountNumberController,
                         ),
                         SizedBox(height: 10),
                         CustomTextFormField(
                           labelText: "IFSC Code ( Optional )",
-                          controller: Get.find<CreateEditProfileController>()
-                              .ifscCodeController,
+                          controller: Get.find<CreateEditProfileController>().ifscCodeController,
                         ),
                       ],
                     ),
@@ -483,32 +398,22 @@ class ClintCreateProfile extends StatelessWidget {
         ),
         CustomButton(
           onTap: () {
-            if (Get.find<CreateEditProfileController>().uploadImageFile.value ==
-                    null &&
-                !Get.find<DbController>().userExist.value) {
+            if (Get.find<CreateEditProfileController>().uploadImageFile.value == null && !Get.find<DbController>().userExist.value) {
               customBar(
                 title: "Please Select Profile Picture",
                 duration: 2,
               );
-            } else if (Get.find<CreateEditProfileController>()
-                        .uploadLogoFile
-                        .value ==
-                    null &&
-                !Get.find<DbController>().userExist.value) {
+            } else if (Get.find<CreateEditProfileController>().uploadLogoFile.value == null && !Get.find<DbController>().userExist.value) {
               customBar(
                 title: "Please Select A Logo",
                 duration: 2,
               );
             } else {
-              if (Get.find<CreateEditProfileController>()
-                  .formKey
-                  .currentState!
-                  .validate()) {
+              if (Get.find<CreateEditProfileController>().formKey.currentState!.validate()) {
                 // ! Impliment submit dialog
                 Get.defaultDialog(
                   title: "",
-                  contentPadding:
-                      EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   content: Column(
                     children: [
                       Text(
@@ -543,16 +448,22 @@ class ClintCreateProfile extends StatelessWidget {
                           Get.back();
                           Get.find<AuthController>().isLoadig.value = true;
 
-                          await Get.find<CreateEditProfileController>()
-                              .createClintProfileModel();
+                          await Get.find<CreateEditProfileController>().createClintProfileModel();
                           Get.back();
 
                           Get.find<AuthController>().isLoadig.value = false;
                           customBar(
-                              duration: 2,
-                              title: Get.find<DbController>().userExist.value
-                                  ? "Profile Updated Successfully"
-                                  : "Profile Created Successfully");
+                            duration: 2,
+                            message: Get.find<DbController>().userExist.value ? "" : "Restarting the application please wait...",
+                            title: Get.find<DbController>().userExist.value ? "Profile Updated Successfully" : "Profile Created Successfully",
+                          );
+
+                          if (!Get.find<DbController>().userExist.value) {
+                            await Future.delayed(
+                              Duration(seconds: 3),
+                            );
+                            Restart.restartApp();
+                          }
                         },
                         child: Text(
                           'YES',
