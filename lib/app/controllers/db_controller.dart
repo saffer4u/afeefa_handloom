@@ -1,6 +1,7 @@
-import 'dart:convert';
-import 'dart:ffi';
+// import 'dart:convert';
+// import 'dart:ffi';
 
+import 'package:flutter/foundation.dart';
 import 'package:afeefa_handloom/app/modules/home/add_product/controllers/add_product_controller.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -98,7 +99,7 @@ class DbController extends GetxController {
         val!.userType = userTypeList.cast<String>();
       },
     );
-    print("Config File arrived");
+    debugPrint("Config File arrived");
     // print(configData.value.userType);
   }
 

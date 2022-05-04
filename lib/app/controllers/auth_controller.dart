@@ -9,6 +9,7 @@ import 'db_controller.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _authInstence = FirebaseAuth.instance;
+  final dbController = Get.find<DbController>();
 
   String get getUid => _authInstence.currentUser!.uid;
   String get getPhoneNumber => _authInstence.currentUser!.phoneNumber!;
@@ -18,8 +19,6 @@ class AuthController extends GetxController {
   late Rx<User?> firebaseUser;
   var isLoadig = false.obs;
   String _verificationCode = '';
- 
-
 
   @override
   void onReady() {
@@ -37,10 +36,10 @@ class AuthController extends GetxController {
 
       // User LoggedIn.
       // currentUser = getCurrentUserInfo();
-      // await Get.find<DbController>().createNewUser(currentUser);
-      await Get.find<DbController>().getConfigData();
-      if (await Get.find<DbController>().userExistCheck()) {
-        await Get.find<DbController>().fatchUserData();
+      // await dbController.createNewUser(currentUser);
+      await dbController.getConfigData();
+      if (await dbController.userExistCheck()) {
+        await dbController.fatchUserData();
       }
       Get.offAllNamed(Routes.HOME);
     } else {
