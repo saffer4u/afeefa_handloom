@@ -1,4 +1,3 @@
-import 'package:afeefa_handloom/app/modules/home/inventory/show_product/controllers/show_product_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +8,9 @@ import '../../../../constents/colors.dart';
 import '../../../../controllers/db_controller.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../../widgets/custom_progress_indicator.dart';
-import '../../../../widgets/custom_text_form_field.dart';
-import '../../../../widgets/snakbars.dart';
 import '../../../../widgets/subtitle_widget.dart';
 import '../../../../widgets/title_widget.dart';
 import '../../add_product/model/product.dart';
-import '../../admin_chat/admin_assign_product/controllers/admin_assign_product_controller.dart';
-import '../../admin_chat/controllers/admin_chat_controller.dart';
 import '../controllers/store_controller.dart';
 
 class StoreView extends GetView<StoreController> {
@@ -37,9 +32,9 @@ class StoreView extends GetView<StoreController> {
 
               final products = snapshot.data!.where((element) {
                 // List<String> assignedProducts = ['AH1235', 'AH1236'];
-                for (var item in Get.find<StoreController>().assignedProducts) {
+                for (var item in controller.assignedProducts) {
                   if (element.id == item) {
-                    for (var item in Get.find<StoreController>().allAssignedproducts) {
+                    for (var item in controller.allAssignedproducts) {
                       if (item['id'] == element.id) {
                         element.rate = item['assignPrice'].toString();
                         element.productAddTime = (item['assignTime'] as Timestamp).toDate();
@@ -59,7 +54,7 @@ class StoreView extends GetView<StoreController> {
 
               return RefreshIndicator(
                 onRefresh: () {
-                  return Get.find<StoreController>().fatchAssignedProducts();
+                  return controller.fatchAssignedProducts();
                 },
                 child: GridView.builder(
                     // physics: BouncingScrollPhysics(),

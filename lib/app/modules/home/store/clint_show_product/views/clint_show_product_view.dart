@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
-
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 import '../../../../../constents/colors.dart';
-import '../../../../../controllers/auth_controller.dart';
-import '../../../../../controllers/db_controller.dart';
 import '../../../../../widgets/custom_button.dart';
-import '../../../../../widgets/custom_progress_indicator.dart';
-import '../../../../../widgets/custom_text_form_field.dart';
 import '../../../../../widgets/snakbars.dart';
 import '../../../../../widgets/subtitle_widget.dart';
 import '../../../../../widgets/title_widget.dart';
-import '../../../inventory/show_product/controllers/show_product_controller.dart';
-import '../../../inventory/show_product/views/show_product_view.dart';
 import '../controllers/clint_show_product_controller.dart';
 
 class ClintShowProductView extends GetView<ClintShowProductController> {
@@ -27,7 +16,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: TitleWidget(title: Get.arguments.title ?? 'Product'),
+        title: TitleWidget(title: controller.product.title ?? 'Product'),
         centerTitle: true,
         leading: Builder(
           builder: (context) => IconButton(
@@ -75,7 +64,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                         ),
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: Get.arguments.images.length,
+                        itemCount: controller.product.images.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
                           return Row(
@@ -99,7 +88,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(
-                                      Get.arguments.images[index],
+                                      controller.product.images[index],
                                       height: 200,
                                       fit: BoxFit.cover,
                                       loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
@@ -140,10 +129,10 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                 ),
                 // Show colors card
                 Builder(builder: (context) {
-                  if (Get.arguments.colors.isNotEmpty) {
+                  if (controller.product.colors.isNotEmpty) {
                     return Column(
                       children: [
-                        SubTitleWidget(title: "In ${Get.arguments.colors.length} Colors"),
+                        SubTitleWidget(title: "In ${controller.product.colors.length} Colors"),
                         Divider(
                           height: 20,
                           color: royal.withOpacity(0.2),
@@ -187,7 +176,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                             ),
                             Expanded(
                               child: Text(
-                                Get.arguments.title,
+                                controller.product.title,
                                 style: TextStyle(
                                   height: 1,
                                   color: royal,
@@ -210,7 +199,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                                   ),
                             ),
                             Text(
-                              Get.arguments.id,
+                              controller.product.id,
                               style: TextStyle(
                                 color: royal,
                                 // fontWeight: FontWeight.bold,
@@ -234,7 +223,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                             ),
                             Expanded(
                               child: Text(
-                                Get.arguments.weight.isEmpty ? "Unknown" : "${Get.arguments.weight} Grams",
+                                controller.product.weight.isEmpty ? "Unknown" : "${controller.product.weight} Grams",
                                 style: TextStyle(
                                   height: 1,
                                   color: royal,
@@ -258,7 +247,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                             ),
                             Expanded(
                               child: Text(
-                                Get.arguments.sizes.isEmpty ? "Unknown" : "${Get.arguments.sizes}",
+                                controller.product.sizes.isEmpty ? "Unknown" : "${controller.product.sizes}",
                                 style: TextStyle(
                                   height: 1,
                                   color: royal,
@@ -282,7 +271,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                             ),
                             Expanded(
                               child: Text(
-                                Get.arguments.fabric.isEmpty ? "Unknown" : "${Get.arguments.fabric}",
+                                controller.product.fabric.isEmpty ? "Unknown" : "${controller.product.fabric}",
                                 style: TextStyle(
                                   height: 1,
                                   color: royal,
@@ -306,7 +295,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                             ),
                             Expanded(
                               child: Text(
-                                "${Get.arguments.stock} PCS",
+                                "${controller.product.stock} PCS",
                                 style: TextStyle(
                                   height: 1,
                                   color: royal,
@@ -330,7 +319,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                             ),
                             Expanded(
                               child: Text(
-                                Get.arguments.description.isEmpty ? "Unknown" : "${Get.arguments.description}",
+                                controller.product.description.isEmpty ? "Unknown" : "${controller.product.description}",
                                 style: TextStyle(
                                   height: 1,
                                   color: royal,
@@ -342,7 +331,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                           ],
                         ),
                         // Rate
-                        Get.arguments.rate.isNotEmpty
+                        controller.product.rate.isNotEmpty
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -355,7 +344,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${Get.arguments.rate} ₹",
+                                      "${controller.product.rate} ₹",
                                       style: TextStyle(
                                         height: 1,
                                         color: royal,
@@ -383,8 +372,7 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: CustomButton(
-
-                    onTap: () async {},
+                    onTap: controller.askButtonPress,
                     label: 'Ask',
                     icon: Icons.speaker_notes_rounded,
                   ),
@@ -396,75 +384,33 @@ class ClintShowProductView extends GetView<ClintShowProductController> {
                 // Add to cart button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: CustomButton(
-                    onTap: () async {
-                      TextEditingController rateController = TextEditingController();
-                      rateController.text = Get.arguments.rate;
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          actionsPadding: EdgeInsets.only(bottom: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          backgroundColor: concrete,
-                          title: GradientText(
-                            "Quantity",
-                            colors: [redOrenge, royal, redOrenge],
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                  fontSize: 20,
-                                  letterSpacing: 2,
-                                ),
-                          ),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                children: [
-                                  
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      controller: rateController,
-                                      keyboardType: TextInputType.number,
-                                      prefix: Text(
-                                        '₹',
-                                        style: TextStyle(color: slate),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          actionsAlignment: MainAxisAlignment.spaceEvenly,
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () => Get.back(),
-                              child: Text(
-                                "Cancel",
-                                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                      color: offWhite,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
+                  child: Obx(() {
+                    if (controller.isProductInCart.value) {
+                      return GradientText(
+                        'Already added in cart',
+                        colors: [royal, redOrenge],
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 20,
                             ),
-                            ElevatedButton(
-                              onPressed: () async {},
-                              child: Text(
-                                "Ok",
-                                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                      color: offWhite,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
                       );
-                    },
-                    label: 'Add to Cart',
-                    icon: Icons.shopping_cart_rounded,
-                  ),
+                    } else {
+                      return CustomButton(
+                        onTap: () async {
+                          if (controller.product.stock < 1) {
+                            customBar(
+                              title: "Not in stock",
+                              message: "Please wait until product arrive",
+                              duration: 2,
+                            );
+                          } else {
+                            await controller.addToCart(ctx: context);
+                          }
+                        },
+                        label: 'Add to Cart',
+                        icon: Icons.shopping_cart_rounded,
+                      );
+                    }
+                  }),
                 ),
                 SizedBox(
                   height: 10,

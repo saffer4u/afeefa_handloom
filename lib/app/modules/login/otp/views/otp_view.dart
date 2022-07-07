@@ -106,7 +106,7 @@ class OtpView extends GetView<OtpController> {
                 ),
                 // SizedBox(height: 20,),
                 Obx(
-                  () => Get.find<OtpController>().seconds.value == 0
+                  () => controller.seconds.value == 0
                       ? Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -136,7 +136,7 @@ class OtpView extends GetView<OtpController> {
                             ),
                           ),
                           child: GradientText(
-                            Get.find<OtpController>().seconds.value.toString(),
+                            controller.seconds.value.toString(),
                             style: GoogleFonts.baloo(
                               fontSize: 50,
                             ),

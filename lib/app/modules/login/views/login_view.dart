@@ -32,7 +32,7 @@ class LoginView extends GetView<LoginController> {
           child: Get.find<AuthController>().isLoadig.isTrue
               ? Center(child: CustomProgressIndicator())
               : FadeTransition(
-                  opacity: Get.find<LoginController>().fadeInFadeOut,
+                  opacity: controller.fadeInFadeOut,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
@@ -97,7 +97,7 @@ class LoginView extends GetView<LoginController> {
                                   color: Colors.grey.shade900,
                                   fontSize: 25,
                                 ),
-                                controller: Get.find<LoginController>().phoneNumberController,
+                                controller: controller.phoneNumberController,
                                 keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
                                   isDense: true,
@@ -180,7 +180,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                               onPressed: () {
-                                if (Get.find<LoginController>().phoneNumberController.text.length != 10) {
+                                if (controller.phoneNumberController.text.length != 10) {
                                   customBar(duration: 2, title: 'Invalid Phone No.', message: "Phone number should be 10 digits.");
                                 } else {
                                   if (Get.find<OtpController>().seconds.value != 0) {
@@ -195,7 +195,7 @@ class LoginView extends GetView<LoginController> {
                                       content: Column(
                                         children: [
                                           Text(
-                                            "+91 ${Get.find<LoginController>().phoneNumberController.text}",
+                                            "+91 ${controller.phoneNumberController.text}",
                                             style: GoogleFonts.baloo(
                                               color: royal,
                                               fontSize: 35,

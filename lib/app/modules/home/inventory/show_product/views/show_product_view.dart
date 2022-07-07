@@ -1,16 +1,6 @@
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
-import 'package:afeefa_handloom/app/controllers/db_controller.dart';
-import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
-import 'package:afeefa_handloom/app/routes/app_pages.dart';
-import 'package:afeefa_handloom/app/widgets/custom_button.dart';
-import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
-import 'package:afeefa_handloom/app/widgets/custom_text_form_field.dart';
-import 'package:afeefa_handloom/app/widgets/snakbars.dart';
-import 'package:afeefa_handloom/app/widgets/subtitle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
-
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -18,6 +8,13 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 import '../../../../../constents/colors.dart';
+import '../../../../../controllers/auth_controller.dart';
+import '../../../../../controllers/db_controller.dart';
+import '../../../../../widgets/custom_button.dart';
+import '../../../../../widgets/custom_progress_indicator.dart';
+import '../../../../../widgets/custom_text_form_field.dart';
+import '../../../../../widgets/snakbars.dart';
+import '../../../../../widgets/subtitle_widget.dart';
 import '../../../../../widgets/title_widget.dart';
 import '../controllers/show_product_controller.dart';
 
@@ -534,7 +531,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                             onPressed: () async {
                                               Get.back();
                                               Get.find<AuthController>().isLoadig.value = true;
-                                              await Get.find<DbController>().updateValueInDb(
+                                              await Get.find<DbController>().updateProductValueInDb(
                                                 docId: Get.arguments.id,
                                                 key: 'title',
                                                 value: Get.find<ShowProductController>().textController.text,
@@ -661,7 +658,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                             onPressed: () async {
                                               Get.back();
                                               Get.find<AuthController>().isLoadig.value = true;
-                                              await Get.find<DbController>().updateValueInDb(
+                                              await Get.find<DbController>().updateProductValueInDb(
                                                 docId: Get.arguments.id,
                                                 key: 'weight',
                                                 value: Get.find<ShowProductController>().textController.text,
@@ -760,7 +757,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                             onPressed: () async {
                                               Get.back();
                                               Get.find<AuthController>().isLoadig.value = true;
-                                              await Get.find<DbController>().updateValueInDb(
+                                              await Get.find<DbController>().updateProductValueInDb(
                                                 docId: Get.arguments.id,
                                                 key: 'sizes',
                                                 value: Get.find<ShowProductController>().textController.text,
@@ -859,7 +856,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                             onPressed: () async {
                                               Get.back();
                                               Get.find<AuthController>().isLoadig.value = true;
-                                              await Get.find<DbController>().updateValueInDb(
+                                              await Get.find<DbController>().updateProductValueInDb(
                                                 docId: Get.arguments.id,
                                                 key: 'fabric',
                                                 value: Get.find<ShowProductController>().textController.text,
@@ -964,7 +961,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                             onPressed: () async {
                                               Get.back();
                                               Get.find<AuthController>().isLoadig.value = true;
-                                              await Get.find<DbController>().updateValueInDb(
+                                              await Get.find<DbController>().updateProductValueInDb(
                                                 docId: Get.arguments.id,
                                                 key: 'stock',
                                                 value: Get.find<ShowProductController>().textController.text.trim(),
@@ -1064,7 +1061,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                             onPressed: () async {
                                               Get.back();
                                               Get.find<AuthController>().isLoadig.value = true;
-                                              await Get.find<DbController>().updateValueInDb(
+                                              await Get.find<DbController>().updateProductValueInDb(
                                                 docId: Get.arguments.id,
                                                 key: 'description',
                                                 value: Get.find<ShowProductController>().textController.text,
@@ -1170,7 +1167,7 @@ class ShowProductView extends GetView<ShowProductController> {
                                                   onPressed: () async {
                                                     Get.back();
                                                     Get.find<AuthController>().isLoadig.value = true;
-                                                    await Get.find<DbController>().updateValueInDb(
+                                                    await Get.find<DbController>().updateProductValueInDb(
                                                       docId: Get.arguments.id,
                                                       key: 'rate',
                                                       value: Get.find<ShowProductController>().textController.text,

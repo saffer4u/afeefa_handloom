@@ -1,14 +1,14 @@
-import 'dart:convert';
-import 'dart:ffi';
-
-import 'package:afeefa_handloom/app/modules/home/add_product/controllers/add_product_controller.dart';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import '../data/config_model.dart';
+import '../modules/home/add_product/controllers/add_product_controller.dart';
 import '../modules/home/add_product/model/product.dart';
+import '../modules/home/cart/models/cart_product_model.dart';
 import '../modules/home/create_edit_profile/model/user_profile_model.dart';
+import '../widgets/snakbars.dart';
 import 'auth_controller.dart';
 
 class DbController extends GetxController {
@@ -22,28 +22,9 @@ class DbController extends GetxController {
 
   var configData = ConfigModel(userType: ['Clint']).obs;
 
-  // add user to db if not already added.
-
-  // Future<void> createNewUser(Map<String, String?> userInfo) async {
-  //   // print('create new user called');
-  //   // print(userInfo.toString());
-  //   if (!await userExistCheck(userInfo['uid']!)) {
-  //     // This function only called if user does not exist in Database.
-  //     await firestore.collection('users').doc(userInfo['uid']).set({
-  //       'phoneNumber': userInfo['phoneNumber'],
-  //       'isProfileCompleted': false,
-  //       'isAdmin': false,
-  //     });
-  //   } else {
-  //     print('User data already exists');
-  //   }
-
-  //   await getUserData(Get.find<AuthController>().getUid);
-  // }
-
-  // Return true if user exist.
+  //* Return true if user exist.
   Future<bool> userExistCheck() async {
-    print('Check user exist called');
+    log('Check user exist called');
     try {
       var collectionRef = firestore.collection('users');
       var doc = await collectionRef.doc(Get.find<AuthController>().getUid).get();
@@ -55,39 +36,45 @@ class DbController extends GetxController {
   }
 
   Future<bool> productExistCheck(String docName) async {
-    print('Check product exist called');
+    log('Check product exist called');
     try {
       var collectionRef = firestore.collection('products');
       var doc = await collectionRef.doc(docName).get();
-
       return doc.exists;
     } catch (e) {
       rethrow;
     }
   }
 
-  //Admin check and assgin in obx var.
-  // void checkIsAdmin() async {
-  //   var collectionRef = firestore.collection('users');
-  //   var doc = await collectionRef.doc(Get.find<AuthController>().getUid).get();
-  //   isAdmin.value = doc.data()!['isAdmin'];
-  // }
+  //? Cart methods -------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  Future<bool> productExistInCartCheck({required String productId}) async {
+    log("Check product exist in cart called");
+    try {
+      var collectionRef = firestore.collection('users/${Get.find<AuthController>().getUid}/cart');
+      var doc = await collectionRef.doc(productId).get();
+      return doc.exists;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-  // Return user data from db.
-  // Future<Map<String, dynamic>?>
-  // Future<void> getUserData(String uid) async {
-  //   var collectionRef = firestore.collection('users');
-
-  //   var doc = await collectionRef.doc(uid).get();
-  //   userData.update((val) {
-  //     val!.addAll(doc.data()!);
-  //   });
-  //   isAdmin.update((val) {
-  //     val = doc.data()!['isAdmin'];
-  //   });
-
-  //   print('User Data Fatched');
-  // }
+  Future<void> addProductToCart(CartProductModel cartProduct) async {
+    try {
+      await firestore.collection("users/${Get.find<AuthController>().getUid}/cart").doc(cartProduct.productId).set(cartProduct.toJson());
+      customBar(
+        title: "Successful",
+        message: "Product added to cart",
+        duration: 3,
+      );
+    } catch (e) {
+      log("Error while adding product to cart : $e");
+      customBar(
+        title: "Error",
+        message: "Something went wrong please try again",
+        duration: 2,
+      );
+    }
+  }
 
   Future<void> getConfigData() async {
     var snapshot = await firestore.collection('config').doc('configData').get();
@@ -98,8 +85,8 @@ class DbController extends GetxController {
         val!.userType = userTypeList.cast<String>();
       },
     );
-    print("Config File arrived");
-    // print(configData.value.userType);
+    log("Config File arrived");
+    // log(configData.value.userType);
   }
 
   Future<void> createClintProfile(UserProfile profile) async {
@@ -134,10 +121,9 @@ class DbController extends GetxController {
 
       userProfile = UserProfile.toObject(data).obs;
       isAdmin.value = userProfile.value.isAdmin;
-      print('User data fatched');
+      log('User data fatched');
     } catch (e) {
-      print(e);
-      print("User Data fatch error");
+      log("User Data fatch error : $e");
     }
   }
 
@@ -154,6 +140,18 @@ class DbController extends GetxController {
     return products;
   }
 
+  Stream<List<CartProductModel>> getCartItems() {
+    var products = firestore.collection("users/${Get.find<AuthController>().getUid}/cart").orderBy('item_add_time', descending: true).snapshots().map(
+          (snapshot) => snapshot.docs.map((doc) {
+            // log(doc.data().toString());
+            return CartProductModel.fromJson(
+              doc.data(),
+            );
+          }).toList(),
+        );
+    return products;
+  }
+
   Stream<QuerySnapshot> getUsersStream() {
     return firestore.collection('users').orderBy('lastMessageTime', descending: true).snapshots();
   }
@@ -166,7 +164,7 @@ class DbController extends GetxController {
     await firestore.collection("products").doc(docId).delete();
   }
 
-  Future<void> updateValueInDb({
+  Future<void> updateProductValueInDb({
     required String docId,
     required String key,
     required String value,
@@ -229,7 +227,7 @@ class DbController extends GetxController {
     snapshot.docs.forEach((element) {
       assignedProducts.add(element.data());
     });
-    // print(assignedProducts);
+    // log(assignedProducts);
     return assignedProducts;
   }
 }

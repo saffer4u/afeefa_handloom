@@ -49,12 +49,7 @@ class AuthController extends GetxController {
     }
   }
 
-  // void signUp(String email, String password) async {
-  //   isLoadig(true);
-  //   await _authInstence.createUserWithEmailAndPassword(
-  //       email: email, password: password);
-  //   isLoadig(false);
-  // }
+
 
   Future<void> phoneLogIn(String phoneNo) async {
     await _authInstence.verifyPhoneNumber(

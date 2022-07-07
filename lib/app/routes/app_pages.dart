@@ -7,6 +7,8 @@ import '../modules/home/admin_chat/admin_assign_product/views/admin_assign_produ
 import '../modules/home/admin_chat/bindings/admin_chat_binding.dart';
 import '../modules/home/admin_chat/views/admin_chat_view.dart';
 import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/cart/bindings/cart_binding.dart';
+import '../modules/home/cart/views/cart_view.dart';
 import '../modules/home/clint_dashbord/bindings/clint_dashbord_binding.dart';
 import '../modules/home/clint_dashbord/views/clint_dashbord_view.dart';
 import '../modules/home/create_edit_profile/bindings/create_edit_profile_binding.dart';
@@ -89,6 +91,11 @@ class AppPages {
               binding: ClintShowProductBinding(),
             ),
           ],
+        ),
+        GetPage(
+          name: _Paths.CART,
+          page: () => const CartView(),
+          binding: CartBinding(),
         ),
       ],
     ),

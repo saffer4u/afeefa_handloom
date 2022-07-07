@@ -1,24 +1,22 @@
-import 'package:afeefa_handloom/app/modules/home/clint_dashbord/views/clint_dashbord_view.dart';
-import 'package:afeefa_handloom/app/modules/home/store/views/store_view.dart';
-import 'package:afeefa_handloom/app/modules/home/views/admin_chat_widget.dart';
-import 'package:afeefa_handloom/app/modules/home/views/clint_chat_view.dart';
-import 'package:afeefa_handloom/app/routes/app_pages.dart';
-import 'package:afeefa_handloom/app/widgets/Logout_button_Widget.dart';
-import 'package:afeefa_handloom/app/widgets/drawer_profile_card_widget.dart';
-import 'package:afeefa_handloom/app/widgets/title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-import 'package:afeefa_handloom/app/constents/colors.dart';
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
-import 'package:afeefa_handloom/app/controllers/db_controller.dart';
-import 'package:afeefa_handloom/app/widgets/drawer_create_profile_widget.dart';
-
+import '../../../constents/colors.dart';
+import '../../../controllers/auth_controller.dart';
+import '../../../controllers/db_controller.dart';
+import '../../../routes/app_pages.dart';
+import '../../../widgets/Logout_button_widget.dart';
+import '../../../widgets/drawer_create_profile_widget.dart';
 import '../../../widgets/drawer_menu_button.dart';
-import '../../../widgets/subtitle_widget.dart';
+import '../../../widgets/drawer_profile_card_widget.dart';
+import '../../../widgets/title_widget.dart';
+import '../clint_dashbord/views/clint_dashbord_view.dart';
 import '../controllers/home_controller.dart';
+import '../store/views/store_view.dart';
+import 'admin_chat_widget.dart';
+import 'clint_chat_view.dart';
 import 'clint_create_profile_view.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -101,10 +99,7 @@ class HomeView extends GetView<HomeController> {
                                 : DrawerMenuButton(
                                     icon: Icons.shopping_cart,
                                     title: "Cart",
-                                    onPressed: () {
-                                      Get.back();
-                                      // Get.find<HomeController>().clint_page_controller.jumpToPage(2);
-                                    },
+                                    onPressed: () => Get.toNamed(Routes.CART),
                                   ),
                             Get.find<DbController>().userProfile.value.isAdmin
                                 ? SizedBox.shrink()

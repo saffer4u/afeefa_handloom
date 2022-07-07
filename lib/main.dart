@@ -2,8 +2,6 @@ import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
 import 'package:afeefa_handloom/app/controllers/db_controller.dart';
 import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
 import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
-import 'package:afeefa_handloom/temp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
