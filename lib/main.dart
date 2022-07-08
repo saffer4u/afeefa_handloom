@@ -1,18 +1,16 @@
-import 'package:afeefa_handloom/app/controllers/auth_controller.dart';
-import 'package:afeefa_handloom/app/controllers/db_controller.dart';
-import 'package:afeefa_handloom/app/controllers/storage_controller.dart';
-import 'package:afeefa_handloom/app/widgets/custom_progress_indicator.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'app/constents/colors.dart';
+import 'app/controllers/auth_controller.dart';
+import 'app/controllers/db_controller.dart';
+import 'app/controllers/storage_controller.dart';
 import 'app/routes/app_pages.dart';
+import 'app/widgets/custom_progress_indicator.dart';
 
-
-//? Problems : 
+//? Problems :
 //! Impliment logic to delete product from main Inventory as well as assigned product.
 //! Push notificaiton is not implimented.
 //! lastMessageTime of user_profile_model may affect on new user creation or update user profile.
@@ -42,9 +40,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         textTheme: TextTheme(
-          bodyText1: GoogleFonts.baloo(),
-          bodyText2: GoogleFonts.baloo2(),
-        ),
+            bodyText1: GoogleFonts.baloo(),
+            bodyText2: GoogleFonts.baloo2(),
+            headline3: GoogleFonts.baloo(
+              fontSize: 20,
+              color: slate,
+            )),
       ),
       debugShowCheckedModeBanner: false,
       title: "Afeefa Handloom",

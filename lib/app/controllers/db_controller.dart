@@ -76,6 +76,35 @@ class DbController extends GetxController {
     }
   }
 
+  Future<void> deleteProductFromCart({required String productId}) async {
+    try {
+      await firestore.collection("users/${Get.find<AuthController>().getUid}/cart").doc(productId).delete();
+      customBar(title: "Item removed successfully", duration: 2);
+    } catch (e) {
+      customBar(
+        title: "Something went wrong",
+        message: e.toString(),
+        duration: 2,
+      );
+    }
+  }
+
+  Future<void> editCartItemQuantity({
+    required String productId,
+    required int qty,
+  }) async {
+    await firestore.collection("users/${Get.find<AuthController>().getUid}/cart").doc(productId).update({
+      "quantity": qty,
+    });
+  }
+
+  Future<int> getStockOfProduct({required String productId}) async {
+    final snapShot = await firestore.collection("products").doc(productId).get();
+
+    log(snapShot.data()!['stock'].toString());
+    return snapShot.data()!["stock"];
+  }
+
   Future<void> getConfigData() async {
     var snapshot = await firestore.collection('config').doc('configData').get();
     List<dynamic> userTypeList = snapshot.data()!['userType'];
@@ -224,9 +253,9 @@ class DbController extends GetxController {
     //   assignedProducts = element.data();
     // });
 
-    snapshot.docs.forEach((element) {
+    for (var element in snapshot.docs) {
       assignedProducts.add(element.data());
-    });
+    }
     // log(assignedProducts);
     return assignedProducts;
   }

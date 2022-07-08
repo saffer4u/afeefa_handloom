@@ -6,7 +6,7 @@ import '../../../widgets/snakbars.dart';
 
 class HomeController extends GetxController {
   var title = "Afeefa Handloom".obs;
-  PageController clint_page_controller = PageController(
+  PageController clintPageController = PageController(
     initialPage: 0,
   );
 

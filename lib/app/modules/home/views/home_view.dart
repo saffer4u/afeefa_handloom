@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,7 +92,7 @@ class HomeView extends GetView<HomeController> {
                                     title: "Dashbord",
                                     onPressed: () {
                                       Get.back();
-                                      Get.find<HomeController>().clint_page_controller.jumpToPage(0);
+                                      Get.find<HomeController>().clintPageController.jumpToPage(0);
                                     },
                                   ),
                             //! Cart button for clints.
@@ -108,7 +110,7 @@ class HomeView extends GetView<HomeController> {
                                     title: "Store",
                                     onPressed: () {
                                       Get.back();
-                                      Get.find<HomeController>().clint_page_controller.jumpToPage(1);
+                                      Get.find<HomeController>().clintPageController.jumpToPage(1);
                                     },
                                   ),
                             Get.find<DbController>().userProfile.value.isAdmin
@@ -118,7 +120,7 @@ class HomeView extends GetView<HomeController> {
                                     title: "Support",
                                     onPressed: () {
                                       Get.back();
-                                      Get.find<HomeController>().clint_page_controller.jumpToPage(2);
+                                      Get.find<HomeController>().clintPageController.jumpToPage(2);
                                     },
                                   ),
                             Get.find<DbController>().userProfile.value.isAdmin
@@ -243,7 +245,7 @@ class HomeView extends GetView<HomeController> {
             // print(details.primaryDelta);
             if ((details.primaryDelta! > 15.0)) {
               Scaffold.of(context).openDrawer();
-              print(details.delta);
+              log(details.delta.toString());
             }
           },
           child: Container(
@@ -273,7 +275,7 @@ class HomeView extends GetView<HomeController> {
                         }
                       },
                       physics: BouncingScrollPhysics(),
-                      controller: Get.find<HomeController>().clint_page_controller,
+                      controller: Get.find<HomeController>().clintPageController,
                       children: [
                         ClintDashbordView(),
                         StoreView(),
