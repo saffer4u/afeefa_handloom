@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as random;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import '../modules/home/add_product/controllers/add_product_controller.dart';
 import '../modules/home/add_product/model/product.dart';
 import '../modules/home/cart/models/cart_product_model.dart';
 import '../modules/home/create_edit_profile/model/user_profile_model.dart';
+import '../modules/home/orders/models/orders_model.dart';
 import '../widgets/snakbars.dart';
 import 'auth_controller.dart';
 
@@ -101,8 +103,33 @@ class DbController extends GetxController {
   Future<int> getStockOfProduct({required String productId}) async {
     final snapShot = await firestore.collection("products").doc(productId).get();
 
-    log(snapShot.data()!['stock'].toString());
+    log("${snapShot.data()!['title']} available stock is ${snapShot.data()!['stock'].toString()}");
     return snapShot.data()!["stock"];
+  }
+
+  //! Order is Experimental ------>>>>>>>>>>
+  Future<void> placeOrder(OrdersModel ordersModel) async {
+    try {
+      await firestore.collection("users/${Get.find<AuthController>().getUid}/orders").doc().set(ordersModelToJson(ordersModel));
+    } catch (e) {
+      log("Order place error $e");
+      rethrow;
+    }
+  }
+
+  Future<String> getRandomOrderId() async {
+    bool docExist = false;
+    String randomId;
+
+    do {
+      randomId = random.Random().nextInt(99999).toString();
+      log(randomId);
+      var collectionRef = firestore.collection('users/${Get.find<AuthController>().getUid}/orders');
+      var doc = await collectionRef.doc(randomId).get();
+      docExist = doc.exists;
+    } while (docExist);
+
+    return randomId;
   }
 
   Future<void> getConfigData() async {
@@ -167,6 +194,11 @@ class DbController extends GetxController {
               .toList(),
         );
     return products;
+  }
+
+  Future<Product> getSingleProductById({required String productId}) async {
+    final snapshot = await firestore.collection("products").doc(productId).get();
+    return Product.fromJson(snapshot.data()!);
   }
 
   Stream<List<CartProductModel>> getCartItems() {

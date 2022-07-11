@@ -19,6 +19,7 @@ abstract class Routes {
   static const CLINT_SHOW_PRODUCT =
       _Paths.HOME + _Paths.STORE + _Paths.CLINT_SHOW_PRODUCT;
   static const CART = _Paths.HOME + _Paths.CART;
+  static const ORDERS = _Paths.HOME + _Paths.ORDERS;
 }
 
 abstract class _Paths {
@@ -36,4 +37,5 @@ abstract class _Paths {
   static const ADMIN_ASSIGN_PRODUCT = '/admin-assign-product';
   static const CLINT_SHOW_PRODUCT = '/clint-show-product';
   static const CART = '/cart';
+  static const ORDERS = '/orders';
 }

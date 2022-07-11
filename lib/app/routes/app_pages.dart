@@ -17,6 +17,8 @@ import '../modules/home/inventory/bindings/inventory_binding.dart';
 import '../modules/home/inventory/show_product/bindings/show_product_binding.dart';
 import '../modules/home/inventory/show_product/views/show_product_view.dart';
 import '../modules/home/inventory/views/inventory_view.dart';
+import '../modules/home/orders/bindings/orders_binding.dart';
+import '../modules/home/orders/views/orders_view.dart';
 import '../modules/home/store/bindings/store_binding.dart';
 import '../modules/home/store/clint_show_product/bindings/clint_show_product_binding.dart';
 import '../modules/home/store/clint_show_product/views/clint_show_product_view.dart';
@@ -96,6 +98,11 @@ class AppPages {
           name: _Paths.CART,
           page: () => const CartView(),
           binding: CartBinding(),
+        ),
+        GetPage(
+          name: _Paths.ORDERS,
+          page: () => const OrdersView(),
+          binding: OrdersBinding(),
         ),
       ],
     ),

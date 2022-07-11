@@ -10,6 +10,7 @@ import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_progress_indicator.dart';
 import '../../../../widgets/subtitle_widget.dart';
 import '../../../../widgets/title_widget.dart';
+import '../../add_product/model/product.dart';
 import '../controllers/cart_controller.dart';
 import '../models/cart_product_model.dart';
 
@@ -150,9 +151,18 @@ class CartView extends GetView<CartController> {
                         ),
                       );
                     } else if (index == snapshot.data!.length + 1) {
-                      return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: CustomButton(onTap: () {}, label: "Place Order"),
+                      return controller.obx(
+                        (state) => Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: CustomButton(
+                            onTap: controller.onPressPlaceOrder,
+                            label: "Place Order",
+                          ),
+                        ),
+                        onLoading: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomProgressIndicator(),
+                        ),
                       );
                     } else {
                       return Card(
@@ -171,8 +181,8 @@ class CartView extends GetView<CartController> {
                                 topLeft: Radius.circular(10),
                               ),
                               child: Container(
-                                height: 150,
-                                width: 150,
+                                height: 160,
+                                width: 160,
                                 color: concrete,
                                 child: Image.network(
                                   cartProducts[index].imageUrl!,
@@ -185,7 +195,7 @@ class CartView extends GetView<CartController> {
                             Expanded(
                               child: Container(
                                 padding: EdgeInsets.all(10),
-                                height: 150,
+                                height: 160,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -210,7 +220,53 @@ class CartView extends GetView<CartController> {
                                         style: Get.theme.textTheme.bodyText2!.copyWith(color: royal.withOpacity(0.9)),
                                       ),
                                     ),
-                                    Spacer(),
+                                    // FutureBuilder(
+                                    //   future: Get.find<DbController>().getStockOfProduct(productId: cartProducts[index].productId!),
+                                    //   builder: (_, snapshot) {
+                                    //     return FittedBox(
+                                    //       child: Text(
+                                    //         "${snapshot.data}",
+                                    //         style: Get.theme.textTheme.bodyText2!.copyWith(
+                                    //           color: royal.withOpacity(0.9),
+                                    //           fontSize: 10,
+                                    //         ),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // ),
+                                    StreamBuilder(
+                                      stream: Get.find<DbController>().readProduct(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return Text("-");
+                                        }
+                                        List<Product> productList = snapshot.data as List<Product>;
+                                        late int stock;
+                                        for (var product in productList) {
+                                          if (product.id == cartProducts[index].productId) {
+                                            stock = product.stock;
+                                          }
+                                        }
+                                        return FittedBox(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 5,
+                                                ),
+                                                child: Text("Live Stock",style: Get.theme.textTheme.headline3!.copyWith(fontSize: 14,color: Colors.white)),
+                                                decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(5)),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "$stock Pcs.",
+                                                style: Get.theme.textTheme.bodyText1!.copyWith(color: royal, fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
                                     FittedBox(
                                       child: Text(
                                         "Subtotal : ${roundOff((cartProducts[index].quantity)! * double.parse(cartProducts[index].price!), 2)} ₹",
@@ -229,13 +285,25 @@ class CartView extends GetView<CartController> {
                                   bottomRight: Radius.circular(10),
                                 ),
                               ),
-                              height: 150,
+                              height: 160,
                               width: 50,
                               child: Column(
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.call_made_rounded),
+                                    onPressed: () => controller.onPressNavToProduct(
+                                        productId: cartProducts[index].productId!, productRate: cartProducts[index].price!, productIndex: index),
+                                    icon: Obx(() {
+                                      if (controller.isLoading.value == true && index == controller.selectedProductIndex) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: CircularProgressIndicator(
+                                            backgroundColor: concrete,
+                                          ),
+                                        );
+                                      } else {
+                                        return Icon(Icons.call_made_rounded);
+                                      }
+                                    }),
                                     color: royal,
                                     splashColor: redOrenge,
                                   ),
@@ -249,7 +317,7 @@ class CartView extends GetView<CartController> {
                                   IconButton(
                                     onPressed: () => controller.onPressEdit(
                                       productId: cartProducts[index].productId!,
-                                      qty: cartProducts[index].quantity.toString(),
+                                      qty: cartProducts[index].quantity!,
                                     ),
                                     icon: Icon(Icons.edit),
                                     color: concrete,
